@@ -1,0 +1,6 @@
+Minesweeper Notes
+
+Questions
+1. Where in the HTML should I store a template?
+  1.1. I'm opting to keep it outside of the gameBoard to make it easier to
+       only grab elements I want from gameBoard
