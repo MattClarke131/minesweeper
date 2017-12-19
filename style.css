@@ -1,0 +1,35 @@
+.minesweeper {
+  /*position*/
+  position: relative;
+  /*size*/
+  height: 90%;
+  width:100%;
+  /*color*/
+  background-color:#222;
+}
+.minesweeper .gameMenu {
+  /*position*/
+  position: relative;
+  left:25%;
+  top: 10%;
+  /*size*/
+  height: 10%;
+  width: 50%;
+  /*color*/
+  background-color:#CCC;
+}
+.minesweeper .gameBoard {
+  /*position*/
+  position: relative;
+  left: 25%;
+  top: 10%;
+  /*size*/
+  height:50%;
+  width:50%;
+  /*color*/
+  background-color:#AAA;
+}
+
+footer {
+  text-align: center;
+}
