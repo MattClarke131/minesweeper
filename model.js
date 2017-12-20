@@ -59,6 +59,15 @@ Minesweeper.Model = function() {
       };
       return neighboringBombs;
     },
+    labelGrid: function() {
+      for(var x=0; x<xSize; x++) {
+        for(var y=0; y<ySize; y++) {
+          if(gameGrid[x][y] !== "bomb") {
+            gameGrid[x][y] = this.getNumNeighboringBombs(x,y);
+          };
+        };
+      };
+    },
   };
   return minesweeper;
 };
