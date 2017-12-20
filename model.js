@@ -32,9 +32,9 @@ Minesweeper.Model = function() {
     populateBombs: function(xClick,yClick) {
       //The first click is always safe, args mark first click
       var bombs = 0;
-      while (bombs < 10) {
-        var xRand = Math.floor(Math.random() * 10);
-        var yRand = Math.floor(Math.random() * 10);
+      while (bombs < numBombs) {
+        var xRand = Math.floor(Math.random() * xSize);
+        var yRand = Math.floor(Math.random() * ySize);
         if(gameGrid[xRand][yRand] !== "bomb" && (xRand !== xClick || yRand !== yClick)) {
           bombs++;
           gameGrid[xRand][yRand] = "bomb"
