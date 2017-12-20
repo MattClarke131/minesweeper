@@ -68,6 +68,25 @@ Minesweeper.Model = function() {
         };
       };
     },
+    getOrthogZeroes: function(xcoord, ycoord) {
+      // INPUT: x,y coordinates
+      // OUTPUT: array of form [[x0,y0],[x1,y1],...]
+      var orthogonalZeroes = [];
+      var coordPairs = [[xcoord+1,ycoord],
+                        [xcoord-1,ycoord],
+                        [xcoord,ycoord+1],
+                        [xcoord,ycoord-1]];
+      console.log("coordPairs.length: ", coordPairs.length);
+      console.log("coordPairs: ", coordPairs);
+      for (var i=0; i<coordPairs.length;i++) {
+        if(coordPairs[i][0] >=0 && coordPairs[i][1] >=0 && coordPairs[i][0] < xSize && coordPairs[i][1] < ySize) {
+          if(gameGrid[coordPairs[i][0]][coordPairs[i][1]] === 0) {
+            orthogonalZeroes.push(coordPairs[i]);
+          }
+        }
+      };
+      return orthogonalZeroes;
+    },
   };
   return minesweeper;
 };
