@@ -41,6 +41,24 @@ Minesweeper.Model = function() {
         };
       };
     },
+    getNumNeighboringBombs: function(xcoord, ycoord) {
+      // INPUT: x,y coordinates
+      // OUTPUT: number
+      var neighboringBombs = 0;
+      for(var x=-1; x<2; x++) {
+        for(var y=-1; y<2; y++) {
+          if(xcoord+x < xSize &&
+             ycoord+y < ySize &&
+             xcoord+x >= 0 &&
+             ycoord+y >= 0) {
+            if(!(x===0 && y===0) && gameGrid[xcoord+x][ycoord+y] == "bomb") {
+              neighboringBombs++;
+            };
+          };
+        };
+      };
+      return neighboringBombs;
+    },
   };
   return minesweeper;
 };
