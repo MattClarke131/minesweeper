@@ -14,19 +14,11 @@ Minesweeper.Model = function() {
     getGameGrid: function() {
       return gameGrid;
     },
-    //Check methods
-    checkNeighbors: function(xcoord, ycoord) {
-      var neighboringBombs = 0;
-      for(var x=-1; x<2; x++) {
-        for(var y=-1; y<2; y++) {
-          if((x!==0 || y!==0) && gameGrid[xcoord+x][ycoord+y] == "bomb") {
-            neighboringBombs++;
-          };
-        };
+    printGameGrid: function() {
+      for(var i=0; i<gameGrid.length;i++) {
+        console.log(gameGrid[i]);
       };
-      return neighboringBombs;
     },
-    //Set methods
     resetGameGrid: function() {
       var newGrid = [];
       for(var i=0; i<xSize; i++) {
