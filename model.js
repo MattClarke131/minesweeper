@@ -86,6 +86,46 @@ Minesweeper.Model = function() {
       };
       return orthogonalZeroes;
     },
+    getAllConnectedZeroes: function(xcoord, ycoord) {
+      // INPUT: x,y coordinates
+      // OUTPUT: array of form [x0,y0,x1,y0,...]
+      var filterCheckedZeroes = function(arr) {
+        // INPUT: array of form [x0,y0,x1,y1,...]
+        // OUTPUT: array of form [x0,y0,x1,y1,...]
+        var uncheckedZeroes = [];
+        for(var i=0; i<arr.length; i+=2) {
+          if(!checkedTiles[arr[i]][arr[i+1]]) {
+            uncheckedZeroes = uncheckedZeroes.concat(arr[i],arr[i+1]);
+          };
+        };
+        return uncheckedZeroes;
+      };
+      var connectedZeroes = [];
+      var uncheckedTiles = this.getOrthogZeroes(xcoord,ycoord);
+      // Create a gameGrid with all tiles being equal to false
+      var checkedTiles = [];
+      for (var x=0; x<xSize; x++) {
+        checkedTiles.push([]);
+        for (var y=0; y<ySize; y++) {
+          checkedTiles[x].push(false);
+        };
+      };
+      // Initial tile is checked
+      checkedTiles[xcoord][ycoord] = true;
+      while(uncheckedTiles.length > 0) {
+        console.log("uncheckedTiles: ", uncheckedTiles);
+        currentTile = uncheckedTiles.splice(0,2);
+        console.log("currentTile: ", currentTile);
+        checkedTiles[currentTile[0]][currentTile[1]] = true;
+        var newZeroes = this.getOrthogZeroes(currentTile[0],currentTile[1]);
+        newZeroes = filterCheckedZeroes(newZeroes);
+        console.log("newZeroes ",newZeroes);
+        uncheckedTiles = uncheckedTiles.concat(newZeroes);
+        connectedZeroes = connectedZeroes.concat(currentTile);
+        console.log("connectedZeroes: ", connectedZeroes);
+      };
+      return connectedZeroes;
+    },
   };
   return minesweeper;
 };
