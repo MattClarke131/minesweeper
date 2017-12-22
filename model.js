@@ -71,7 +71,7 @@ Minesweeper.Model = function() {
     },
     getOrthogZeroes: function(xcoord, ycoord) {
       // INPUT: x,y coordinates
-      // OUTPUT: array of form [x0,y0,x1,y1,...]
+      // OUTPUT: array of form [[x0,y0],[x1,y1],...]
       var orthogonalZeroes = [];
       var coordPairs = [[xcoord+1,ycoord],
                         [xcoord-1,ycoord],
@@ -85,7 +85,7 @@ Minesweeper.Model = function() {
            yValue >=0 &&
            yValue < ySize) {
           if(gameGrid[xValue][yValue] === 0) {
-            orthogonalZeroes.push(xValue,yValue);
+            orthogonalZeroes.push([xValue,yValue]);
           };
         };
       };
