@@ -4,3 +4,17 @@ Questions
 1. Where in the HTML should I store a template?
   1.1. I'm opting to keep it outside of the gameBoard to make it easier to
        only grab elements I want from gameBoard
+2. When should I place helper functions within a larger functions, and when
+   should I place them outside as _underscore functions?
+
+
+Notes
+1. getAllConnectedZeroes currently returns an array with duplicate tiles
+
+To Do
+1. Create gameGrid with controller
+
+
+For loop checklist
+Nested:
+  Using different iteration variables?
