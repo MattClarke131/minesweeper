@@ -6,18 +6,25 @@
 </head>
   <body>
     <div class="minesweeper">
-        <div class="gameMenu">
-        </div>
-        <div class="gameTileTemplate"
-        data-xcoord=""
-        data-ycoord=""
-        data-activity="inactive"
-        data-gameValue=""
-        data-pressed="">
+      <div class="templates">
+        <table hidden class="gameGridTemplate">
+          <tr hidden class="gameRowTemplate">
+            <td hidden class="gameTileTemplate"
+                data-xcoord=""
+                data-ycoord=""
+                data-activity=""
+                data-gameValue=""
+                data-pressed="">
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="gameMenu">
       </div>
       <div class="gameBoard">
+        <table class="gameGrid">
+        </table>
       </div>
-    </div>
     <footer> Written by <a href="github.com/mattclarke131">Matthew Clarke</a>
     </footer>
     <script src="jquery-3.2.1.js"></script>
