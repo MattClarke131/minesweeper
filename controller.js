@@ -6,10 +6,13 @@ Minesweeper.Controller = function(node) {
   var gameTileTemplate = $(".gameTileTemplate");
   var gameRowTemplate = $(".gameRowTemplate");
   var gameGrid = $(".gameGrid");
+  var numGameRows = 10;
+  var numGameCols = 10;
   // Public
   return {
     initialize: function() {
       console.log("initialization successful");
+      this.populateGameRows(numGameRows, numGameCols);
     },
     populateGameRows: function(numRows,numCol) {
       for(var i=0; i<numRows; i++) {

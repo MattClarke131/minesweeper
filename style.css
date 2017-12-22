@@ -25,9 +25,17 @@
   top: 10%;
   /*size*/
   height:50%;
-  width:50%;
+  width: 22em;
   /*color*/
   background-color:#AAA;
+}
+.minesweeper .gameGrid {
+  height: 100%;
+}
+.minesweeper .gameGrid .gameTile {
+  width: 2em;
+  height: 10%;
+  background-color:#0FF;
 }
 
 footer {
