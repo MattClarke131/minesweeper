@@ -78,11 +78,16 @@ Minesweeper.Model = function() {
                         [xcoord,ycoord+1],
                         [xcoord,ycoord-1]];
       for (var i=0; i<coordPairs.length;i++) {
-        if(coordPairs[i][0] >=0 && coordPairs[i][1] >=0 && coordPairs[i][0] < xSize && coordPairs[i][1] < ySize) {
-          if(gameGrid[coordPairs[i][0]][coordPairs[i][1]] === 0) {
-            orthogonalZeroes.push(coordPairs[i][0],coordPairs[i][1]);
-          }
-        }
+        var xValue = coordPairs[i][0]
+        var yValue = coordPairs[i][1]
+        if(xValue >=0 &&
+           xValue < xSize &&
+           yValue >=0 &&
+           yValue < ySize) {
+          if(gameGrid[xValue][yValue] === 0) {
+            orthogonalZeroes.push(xValue,yValue);
+          };
+        };
       };
       return orthogonalZeroes;
     },
