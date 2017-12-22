@@ -1,0 +1,4 @@
+Minesweeper 2017
+Shawn Notes
+
+"Show me the data structures and I'll show you the algorithm"
