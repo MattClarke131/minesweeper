@@ -71,7 +71,7 @@ Minesweeper.Model = function() {
     },
     getOrthogZeroes: function(xcoord, ycoord) {
       // INPUT: x,y coordinates
-      // OUTPUT: array of form [x0,y0,x1,y1,...]
+      // OUTPUT: array of form [[x0,y0],[x1,y1],...]
       var orthogonalZeroes = [];
       var coordPairs = [[xcoord+1,ycoord],
                         [xcoord-1,ycoord],
@@ -85,7 +85,7 @@ Minesweeper.Model = function() {
            yValue >=0 &&
            yValue < ySize) {
           if(gameGrid[xValue][yValue] === 0) {
-            orthogonalZeroes.push(xValue,yValue);
+            orthogonalZeroes.push([xValue,yValue]);
           };
         };
       };
@@ -93,9 +93,8 @@ Minesweeper.Model = function() {
     },
     getAllConnectedZeroes: function(xcoord, ycoord) {
       // INPUT: x,y coordinates
-      // OUTPUT: array of form [x0,y0,x1,y0,...]
+      // OUTPUT: array of form [[x0,y0],[x1,y0],...]
       var connectedZeroes = [];
-      var uncheckedTiles = this.getOrthogZeroes(xcoord,ycoord);
       // Create a gameGrid with all tiles being equal to false
       var checkedTiles = [];
       for (var x=0; x<xSize; x++) {
@@ -106,26 +105,31 @@ Minesweeper.Model = function() {
       };
       // Initial tile is checked
       checkedTiles[xcoord][ycoord] = true;
+      var uncheckedTiles = this.getOrthogZeroes(xcoord,ycoord);
       // Helper function
       var filterCheckedZeroes = function(arr) {
-        // INPUT: array of form [x0,y0,x1,y1,...]
-        // OUTPUT: array of form [x0,y0,x1,y1,...]
+        // INPUT: array of form [[x0,y0],[x1,y1],...]
+        // OUTPUT: array of form [[x0,y0],[x1,y1],...]
         var uncheckedZeroes = [];
-        for(var i=0; i<arr.length; i+=2) {
-          if(!checkedTiles[arr[i]][arr[i+1]]) {
-            uncheckedZeroes = uncheckedZeroes.concat(arr[i],arr[i+1]);
+        for(var i=0; i<arr.length; i++) {
+          if(!checkedTiles[arr[i][0]][arr[i][1]]) {
+            uncheckedZeroes.push(arr[i]);
           };
         };
         return uncheckedZeroes;
       };
       // "Paint fill" algorithm
       while(uncheckedTiles.length > 0) {
-        currentTile = uncheckedTiles.splice(0,2);
+        currentTile = uncheckedTiles[0];
         checkedTiles[currentTile[0]][currentTile[1]] = true;
         var newZeroes = this.getOrthogZeroes(currentTile[0],currentTile[1]);
         newZeroes = filterCheckedZeroes(newZeroes);
-        uncheckedTiles = uncheckedTiles.concat(newZeroes);
-        connectedZeroes = connectedZeroes.concat(currentTile);
+        for(var i=0; i<newZeroes.length; i++) {
+          uncheckedTiles.push(newZeroes[i]);
+          checkedTiles[newZeroes[i][0]][newZeroes[i][1]] = true;
+        };
+        connectedZeroes.push(currentTile);
+        uncheckedTiles.shift();
       };
       return connectedZeroes;
     },
