@@ -94,17 +94,6 @@ Minesweeper.Model = function() {
     getAllConnectedZeroes: function(xcoord, ycoord) {
       // INPUT: x,y coordinates
       // OUTPUT: array of form [x0,y0,x1,y0,...]
-      var filterCheckedZeroes = function(arr) {
-        // INPUT: array of form [x0,y0,x1,y1,...]
-        // OUTPUT: array of form [x0,y0,x1,y1,...]
-        var uncheckedZeroes = [];
-        for(var i=0; i<arr.length; i+=2) {
-          if(!checkedTiles[arr[i]][arr[i+1]]) {
-            uncheckedZeroes = uncheckedZeroes.concat(arr[i],arr[i+1]);
-          };
-        };
-        return uncheckedZeroes;
-      };
       var connectedZeroes = [];
       var uncheckedTiles = this.getOrthogZeroes(xcoord,ycoord);
       // Create a gameGrid with all tiles being equal to false
@@ -117,6 +106,19 @@ Minesweeper.Model = function() {
       };
       // Initial tile is checked
       checkedTiles[xcoord][ycoord] = true;
+      // Helper function
+      var filterCheckedZeroes = function(arr) {
+        // INPUT: array of form [x0,y0,x1,y1,...]
+        // OUTPUT: array of form [x0,y0,x1,y1,...]
+        var uncheckedZeroes = [];
+        for(var i=0; i<arr.length; i+=2) {
+          if(!checkedTiles[arr[i]][arr[i+1]]) {
+            uncheckedZeroes = uncheckedZeroes.concat(arr[i],arr[i+1]);
+          };
+        };
+        return uncheckedZeroes;
+      };
+      // "Paint fill" algorithm
       while(uncheckedTiles.length > 0) {
         currentTile = uncheckedTiles.splice(0,2);
         checkedTiles[currentTile[0]][currentTile[1]] = true;
