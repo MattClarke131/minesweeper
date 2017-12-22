@@ -118,16 +118,12 @@ Minesweeper.Model = function() {
       // Initial tile is checked
       checkedTiles[xcoord][ycoord] = true;
       while(uncheckedTiles.length > 0) {
-        console.log("uncheckedTiles: ", uncheckedTiles);
         currentTile = uncheckedTiles.splice(0,2);
-        console.log("currentTile: ", currentTile);
         checkedTiles[currentTile[0]][currentTile[1]] = true;
         var newZeroes = this.getOrthogZeroes(currentTile[0],currentTile[1]);
         newZeroes = filterCheckedZeroes(newZeroes);
-        console.log("newZeroes ",newZeroes);
         uncheckedTiles = uncheckedTiles.concat(newZeroes);
         connectedZeroes = connectedZeroes.concat(currentTile);
-        console.log("connectedZeroes: ", connectedZeroes);
       };
       return connectedZeroes;
     },
