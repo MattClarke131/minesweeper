@@ -14,11 +14,6 @@ Minesweeper.Model = function() {
     getGameGrid: function() {
       return gameGrid;
     },
-    printGameGrid: function() {
-      for(var i=0; i<gameGrid.length;i++) {
-        console.log(gameGrid[i]);
-      };
-    },
     resetGameGrid: function() {
       var newGrid = [];
       for(var i=0; i<xSize; i++) {
@@ -132,6 +127,12 @@ Minesweeper.Model = function() {
         uncheckedTiles.shift();
       };
       return connectedZeroes;
+    },
+    // DEBUG
+    printGameGrid: function() {
+      for(var i=0; i<gameGrid.length;i++) {
+        console.log(gameGrid[i]);
+      };
     },
   };
   return minesweeper;
