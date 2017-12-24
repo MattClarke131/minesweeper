@@ -14,11 +14,11 @@ Minesweeper.Controller = function(node) {
       console.log("initialization successful");
       this.populateGameRows(numGameRows, numGameCols);
     },
-    populateGameRows: function(numRows,numCol) {
+    populateGameRows: function(numRows,numCols) {
       for(var i=0; i<numRows; i++) {
         var newRow = this._getFormattedGameRow();
-        for(var j=0; j<numCol; j++) {
-          var newTile = this._getFormattedGameTile(i,j);
+        for(var j=0; j<numCols; j++) {
+          var newTile = this._getFormattedGameTile(j,i);
           newRow.append(newTile);
         };
         gameGrid.append(newRow);
