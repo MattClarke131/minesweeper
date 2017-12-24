@@ -26,14 +26,12 @@ Minesweeper.Controller = function(node) {
     },
     _getFormattedGameRow: function() {
       var newRow = gameRowTemplate.clone();
-      newRow.removeAttr("hidden");
       newRow.removeClass("gameRowTemplate").addClass("gameRow");
       newRow.empty();
       return newRow;
     },
     _getFormattedGameTile: function(xcoord,ycoord) {
       var newTile = gameTileTemplate.clone();
-      newTile.removeAttr("hidden");
       newTile.removeClass("gameTileTemplate").addClass("gameTile");
       newTile.attr("data-xcoord",xcoord);
       newTile.attr("data-ycoord",ycoord);
