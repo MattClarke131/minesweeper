@@ -12,9 +12,9 @@ Minesweeper.Controller = function(node) {
   return {
     initialize: function() {
       console.log("initialization successful");
-      this.populateGameRows(numGameRows, numGameCols);
+      this._populateGameRows(numGameRows, numGameCols);
     },
-    populateGameRows: function(numRows,numCols) {
+    _populateGameRows: function(numRows,numCols) {
       for(var i=0; i<numRows; i++) {
         var newRow = this._getFormattedGameRow();
         for(var j=0; j<numCols; j++) {
