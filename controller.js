@@ -10,9 +10,19 @@ Minesweeper.Controller = function(node) {
   var numGameCols = 10;
   // Public
   return {
+    model: Minesweeper.Model(),
+    // Initialize
     initialize: function() {
       console.log("initialization successful");
-      this._populateGameRows(numGameRows, numGameCols);
+      this.resetGameGridDisplay();
+      this.model.resetGameGrid();
+      this.model.populateBombs();
+      this.model.labelGrid();
+      this._setGameValues();
+    },
+    resetGameGridDisplay() {
+      gameGrid.empty();
+      this._populateGameRows(numGameRows,numGameCols);
     },
     _populateGameRows: function(numRows,numCols) {
       for(var i=0; i<numRows; i++) {
@@ -37,6 +47,19 @@ Minesweeper.Controller = function(node) {
       newTile.attr("data-ycoord",ycoord);
       return newTile;
     },
+    _setGameValues: function() {
+      //Sets gameValues for all tiles;
+      var gameTiles = $(".gameTile");
+      for(var i=0; i<gameTiles.length; i++) {
+        var currentTile = $(gameTiles[i]);
+        var xcoord = currentTile.attr("data-xcoord");
+        var ycoord = currentTile.attr("data-ycoord");
+        var value = this.model.getGameGrid()[ycoord][xcoord];
+        currentTile.attr("data-gameValue", value);
+      };
+    },
+
+    // Debug
   };
 };
 //temp for debugging

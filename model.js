@@ -96,6 +96,12 @@ Minesweeper.Model = function() {
       };
       return connectedZeroes;
     },
+    getXSize: function() {
+      return xSize;
+    },
+    getYSize: function() {
+      return ySize;
+    },
     // Game state methods
     resetGameGrid: function() {
       var newGrid = [];
