@@ -2,40 +2,17 @@ console.log("model.js successfully loaded");
 
 var Minesweeper = {}
 Minesweeper.Model = function() {
-  //Private
+  // Private
   var gameGrid;
   var xSize = 10;
   var ySize = 10;
   var numBombs = 10;
 
-  //Public
+  // Public
   var minesweeper = {
-    //Get methods
+    // Get methods
     getGameGrid: function() {
       return gameGrid;
-    },
-    resetGameGrid: function() {
-      var newGrid = [];
-      for(var i=0; i<xSize; i++) {
-        newGrid.push([]);
-        for(var j=0; j<ySize; j++) {
-          newGrid[i].push("");
-        };
-      };
-      gameGrid = newGrid;
-    },
-    populateBombs: function(xClick,yClick) {
-      //The first click is always safe, args mark first click
-      this.resetGameGrid();
-      var bombs = 0;
-      while (bombs < numBombs) {
-        var xRand = Math.floor(Math.random() * xSize);
-        var yRand = Math.floor(Math.random() * ySize);
-        if(gameGrid[xRand][yRand] !== "bomb" && (xRand !== xClick || yRand !== yClick)) {
-          bombs++;
-          gameGrid[xRand][yRand] = "bomb"
-        };
-      };
     },
     getNumNeighboringBombs: function(xcoord, ycoord) {
       // INPUT: x,y coordinates
@@ -54,15 +31,6 @@ Minesweeper.Model = function() {
         };
       };
       return neighboringBombs;
-    },
-    labelGrid: function() {
-      for(var x=0; x<xSize; x++) {
-        for(var y=0; y<ySize; y++) {
-          if(gameGrid[x][y] !== "bomb") {
-            gameGrid[x][y] = this.getNumNeighboringBombs(x,y);
-          };
-        };
-      };
     },
     getOrthogZeroes: function(xcoord, ycoord) {
       // INPUT: x,y coordinates
@@ -127,6 +95,39 @@ Minesweeper.Model = function() {
         uncheckedTiles.shift();
       };
       return connectedZeroes;
+    },
+    // Game state methods
+    resetGameGrid: function() {
+      var newGrid = [];
+      for(var i=0; i<xSize; i++) {
+        newGrid.push([]);
+        for(var j=0; j<ySize; j++) {
+          newGrid[i].push("");
+        };
+      };
+      gameGrid = newGrid;
+    },
+    populateBombs: function(xClick,yClick) {
+      //The first click is always safe, args mark first click
+      this.resetGameGrid();
+      var bombs = 0;
+      while (bombs < numBombs) {
+        var xRand = Math.floor(Math.random() * xSize);
+        var yRand = Math.floor(Math.random() * ySize);
+        if(gameGrid[xRand][yRand] !== "bomb" && (xRand !== xClick || yRand !== yClick)) {
+          bombs++;
+          gameGrid[xRand][yRand] = "bomb"
+        };
+      };
+    },
+    labelGrid: function() {
+      for(var x=0; x<xSize; x++) {
+        for(var y=0; y<ySize; y++) {
+          if(gameGrid[x][y] !== "bomb") {
+            gameGrid[x][y] = this.getNumNeighboringBombs(x,y);
+          };
+        };
+      };
     },
     // DEBUG
     printGameGrid: function() {
