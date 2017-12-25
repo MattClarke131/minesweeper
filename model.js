@@ -112,8 +112,10 @@ Minesweeper.Model = function() {
         };
       };
       gameGrid = newGrid;
+      this._populateBombs();
+      this._labelGrid();
     },
-    populateBombs: function(xClick,yClick) {
+    _populateBombs: function(xClick,yClick) {
       //The first click is always safe, args mark first click
       this.resetGameGrid();
       var bombs = 0;
@@ -126,7 +128,7 @@ Minesweeper.Model = function() {
         };
       };
     },
-    labelGrid: function() {
+    _labelGrid: function() {
       for(var x=0; x<xSize; x++) {
         for(var y=0; y<ySize; y++) {
           if(gameGrid[x][y] !== "bomb") {

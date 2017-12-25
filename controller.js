@@ -16,8 +16,6 @@ Minesweeper.Controller = function(node) {
       console.log("initialization successful");
       this.resetGameGridDisplay();
       this.model.resetGameGrid();
-      this.model.populateBombs();
-      this.model.labelGrid();
       this._setGameValues();
     },
     resetGameGridDisplay() {
