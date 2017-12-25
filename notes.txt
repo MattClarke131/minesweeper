@@ -10,9 +10,17 @@ Questions
 
 Notes
 1. getAllConnectedZeroes currently returns an array with duplicate tiles
+2. I now view _underscore() functions as functions with an indent
 
 To Do
-1. Create gameGrid with controller
+1. Create 4 smiley faces
+  -:), :o, B), xx(
+2. Create 2 bomb graphics
+3. Style numbers or create numbers graphics
+4. Style gameGrid
+
+5. Create model callback functions.
+  5.0. When model updates state, controller should also update state.
 
 
 For loop checklist
