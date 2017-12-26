@@ -14,25 +14,55 @@ Minesweeper.Model = function() {
     getGameGrid: function() {
       return gameGrid;
     },
-    getNumNeighboringBombs: function(xcoord, ycoord) {
+    getXSize: function() {
+      return xSize;
+    },
+    getYSize: function() {
+      return ySize;
+    },
+    getAllConnectedZeroes: function(xcoord, ycoord) {
       // INPUT: x,y coordinates
-      // OUTPUT: number
-      var neighboringBombs = 0;
-      for(var x=-1; x<2; x++) {
-        for(var y=-1; y<2; y++) {
-          if(xcoord+x < xSize &&
-             ycoord+y < ySize &&
-             xcoord+x >= 0 &&
-             ycoord+y >= 0) {
-            if(!(x===0 && y===0) && gameGrid[xcoord+x][ycoord+y] == "bomb") {
-              neighboringBombs++;
-            };
-          };
+      // OUTPUT: array of form [[x0,y0],[x1,y0],...]
+      var connectedZeroes = [];
+      // Create a gameGrid with all tiles being equal to false
+      var checkedTiles = [];
+      for (var x=0; x<xSize; x++) {
+        checkedTiles.push([]);
+        for (var y=0; y<ySize; y++) {
+          checkedTiles[x].push(false);
         };
       };
-      return neighboringBombs;
+      // Initial tile is checked
+      checkedTiles[xcoord][ycoord] = true;
+      var uncheckedTiles = this._getOrthogZeroes(xcoord,ycoord);
+      // Helper function
+      var filterCheckedZeroes = function(arr) {
+        // INPUT: array of form [[x0,y0],[x1,y1],...]
+        // OUTPUT: array of form [[x0,y0],[x1,y1],...]
+        var uncheckedZeroes = [];
+        for(var i=0; i<arr.length; i++) {
+          if(!checkedTiles[arr[i][0]][arr[i][1]]) {
+            uncheckedZeroes.push(arr[i]);
+          };
+        };
+        return uncheckedZeroes;
+      };
+      // "Paint fill" algorithm
+      while(uncheckedTiles.length > 0) {
+        currentTile = uncheckedTiles[0];
+        checkedTiles[currentTile[0]][currentTile[1]] = true;
+        var newZeroes = this._getOrthogZeroes(currentTile[0],currentTile[1]);
+        newZeroes = filterCheckedZeroes(newZeroes);
+        for(var i=0; i<newZeroes.length; i++) {
+          uncheckedTiles.push(newZeroes[i]);
+          checkedTiles[newZeroes[i][0]][newZeroes[i][1]] = true;
+        };
+        connectedZeroes.push(currentTile);
+        uncheckedTiles.shift();
+      };
+      return connectedZeroes;
     },
-    getOrthogZeroes: function(xcoord, ycoord) {
+    _getOrthogZeroes: function(xcoord, ycoord) {
       // INPUT: x,y coordinates
       // OUTPUT: array of form [[x0,y0],[x1,y1],...]
       var orthogonalZeroes = [];
@@ -53,54 +83,6 @@ Minesweeper.Model = function() {
         };
       };
       return orthogonalZeroes;
-    },
-    getAllConnectedZeroes: function(xcoord, ycoord) {
-      // INPUT: x,y coordinates
-      // OUTPUT: array of form [[x0,y0],[x1,y0],...]
-      var connectedZeroes = [];
-      // Create a gameGrid with all tiles being equal to false
-      var checkedTiles = [];
-      for (var x=0; x<xSize; x++) {
-        checkedTiles.push([]);
-        for (var y=0; y<ySize; y++) {
-          checkedTiles[x].push(false);
-        };
-      };
-      // Initial tile is checked
-      checkedTiles[xcoord][ycoord] = true;
-      var uncheckedTiles = this.getOrthogZeroes(xcoord,ycoord);
-      // Helper function
-      var filterCheckedZeroes = function(arr) {
-        // INPUT: array of form [[x0,y0],[x1,y1],...]
-        // OUTPUT: array of form [[x0,y0],[x1,y1],...]
-        var uncheckedZeroes = [];
-        for(var i=0; i<arr.length; i++) {
-          if(!checkedTiles[arr[i][0]][arr[i][1]]) {
-            uncheckedZeroes.push(arr[i]);
-          };
-        };
-        return uncheckedZeroes;
-      };
-      // "Paint fill" algorithm
-      while(uncheckedTiles.length > 0) {
-        currentTile = uncheckedTiles[0];
-        checkedTiles[currentTile[0]][currentTile[1]] = true;
-        var newZeroes = this.getOrthogZeroes(currentTile[0],currentTile[1]);
-        newZeroes = filterCheckedZeroes(newZeroes);
-        for(var i=0; i<newZeroes.length; i++) {
-          uncheckedTiles.push(newZeroes[i]);
-          checkedTiles[newZeroes[i][0]][newZeroes[i][1]] = true;
-        };
-        connectedZeroes.push(currentTile);
-        uncheckedTiles.shift();
-      };
-      return connectedZeroes;
-    },
-    getXSize: function() {
-      return xSize;
-    },
-    getYSize: function() {
-      return ySize;
     },
     // Game state methods
     resetGameGrid: function() {
@@ -132,10 +114,28 @@ Minesweeper.Model = function() {
       for(var x=0; x<xSize; x++) {
         for(var y=0; y<ySize; y++) {
           if(gameGrid[x][y] !== "bomb") {
-            gameGrid[x][y] = this.getNumNeighboringBombs(x,y);
+            gameGrid[x][y] = this._getNumNeighboringBombs(x,y);
           };
         };
       };
+    },
+    _getNumNeighboringBombs: function(xcoord, ycoord) {
+      // INPUT: x,y coordinates
+      // OUTPUT: number
+      var neighboringBombs = 0;
+      for(var x=-1; x<2; x++) {
+        for(var y=-1; y<2; y++) {
+          if(xcoord+x < xSize &&
+             ycoord+y < ySize &&
+             xcoord+x >= 0 &&
+             ycoord+y >= 0) {
+            if(!(x===0 && y===0) && gameGrid[xcoord+x][ycoord+y] == "bomb") {
+              neighboringBombs++;
+            };
+          };
+        };
+      };
+      return neighboringBombs;
     },
     // DEBUG
     printGameGrid: function() {
