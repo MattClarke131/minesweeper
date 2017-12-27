@@ -8,6 +8,7 @@ Minesweeper.Controller = function(node) {
   var gameGrid = $(".gameGrid");
   var numGameRows = 10;
   var numGameCols = 10;
+  controller = this;
   // Public
   return {
     model: Minesweeper.Model(),
@@ -17,6 +18,7 @@ Minesweeper.Controller = function(node) {
       this.resetGameGridDisplay();
       this.model.resetGameGrid();
       this._setGameValues();
+      this.model.setCallback(this._setGameValues);
     },
     resetGameGridDisplay() {
       gameGrid.empty();
@@ -52,11 +54,10 @@ Minesweeper.Controller = function(node) {
         var currentTile = $(gameTiles[i]);
         var xcoord = currentTile.attr("data-xcoord");
         var ycoord = currentTile.attr("data-ycoord");
-        var value = this.model.getGameGrid()[ycoord][xcoord];
+        var value = controller.model.getGameGrid()[ycoord][xcoord];
         currentTile.attr("data-gameValue", value);
       };
     },
-
     // Debug
   };
 };

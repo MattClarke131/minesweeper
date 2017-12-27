@@ -7,6 +7,7 @@ Minesweeper.Model = function() {
   var xSize = 10;
   var ySize = 10;
   var numBombs = 10;
+  var callback = function() {};
 
   // Public
   var minesweeper = {
@@ -84,8 +85,13 @@ Minesweeper.Model = function() {
       };
       return orthogonalZeroes;
     },
+    // Set methods
+    setCallback: function(func) {
+      callback = func;
+    },
     // Game state methods
     resetGameGrid: function() {
+      // calls callback function
       var newGrid = [];
       for(var i=0; i<xSize; i++) {
         newGrid.push([]);
@@ -96,6 +102,7 @@ Minesweeper.Model = function() {
       gameGrid = newGrid;
       this._populateBombs();
       this._labelGrid();
+      callback();
     },
     _populateBombs: function(xClick,yClick) {
       //The first click is always safe, args mark first click
