@@ -99,7 +99,6 @@ Minesweeper.Model = function() {
     },
     _populateBombs: function(xClick,yClick) {
       //The first click is always safe, args mark first click
-      this.resetGameGrid();
       var bombs = 0;
       while (bombs < numBombs) {
         var xRand = Math.floor(Math.random() * xSize);
