@@ -169,6 +169,13 @@ Minesweeper.Controller = function(node) {
           controller.setInitPhase();
         });
     },
+    bindAllTileButtons: function(func) {
+      for(var x=0; x<numGameCols; x++) {
+        for(var y=0; y<numGameRows; y++) {
+          this._bindIndividualTileButton(x,y,func);
+        };
+      };
+    },
     _bindIndividualTileButton: function(xcoord,ycoord, func) {
       $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").click(func);
     },
