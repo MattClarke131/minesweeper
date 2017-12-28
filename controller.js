@@ -71,11 +71,14 @@ Minesweeper.Controller = function(node) {
     },
     _updateTimerDisplay: function(newValue) {
       // INPUT: string
-      if(newValue.length <= 3) {
-        $(".timerDisplay").html(newValue);
-      } else {
-        $(".timerDisplay").html("999");
+      if (newValue.length === 1) {
+        newValue = "00" + newValue;
+      } else if (newValue.length === 2) {
+        newValue = "0" + newValue;
+      } else if (newValue.length > 3) {
+        newValue = "999";
       };
+      $(".timerDisplay").html(newValue);
     },
     // Debug
   };
