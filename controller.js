@@ -23,6 +23,7 @@ Minesweeper.Controller = function(node) {
       this._setGameValues();
       this.model.setGameGridCallback(this._setGameValues);
     },
+    // Display Functions
     resetGameGridDisplay() {
       gameGrid.empty();
       this._populateGameRows(numGameRows,numGameCols);
@@ -61,6 +62,17 @@ Minesweeper.Controller = function(node) {
         currentTile.attr("data-gameValue", value);
       };
     },
+    _updateMinesDisplay: function(newValue) {
+      // INPUT: string
+      if (newValue.length == 1) {
+        newValue = "00" + newValue;
+      } else if (newValue.length == 2) {
+        newValue = "0" + newValue;
+      } else if (newValue.length > 3) {
+        newValue = 999;
+      }
+      $(".minesDisplay").html(newValue);
+    },
     // Game state functions
     setInitPhase: function() {
       this.setAllTilesActivity(false);
@@ -89,6 +101,7 @@ Minesweeper.Controller = function(node) {
     _setIndividualTileActivity: function(xcoord,ycoord,value) {
       $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").attr("data-activity", value);
     },
+    // Time functions
     startTimer: function() {
       initialTime = new Date().getTime();
       timerOn = true;
