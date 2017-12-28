@@ -72,6 +72,11 @@ Minesweeper.Controller = function(node) {
     _setIndividualTileActivity: function(xcoord,ycoord,value) {
       $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").attr("data-activity", value);
     },
+    startTimer: function() {
+      initialTime = new Date().getTime();
+      timerOn = true;
+      this._incrementTimer();
+    },
     _incrementTimer: function() {
       if(timerOn) {
         var currentTime = new Date().getTime();
