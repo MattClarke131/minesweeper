@@ -73,6 +73,29 @@ Minesweeper.Controller = function(node) {
       }
       $(".minesDisplay").html(newValue);
     },
+    setSmileyGraphic(newFace) {
+      // INPUT: string
+      var smileyGraphic = $($(".minesweeper .smileyGraphic")[0]);
+      var newSrc;
+      switch (newFace) {
+        case "smile":
+          newSrc = smileyGraphic.attr("data-smile-src");
+          break;
+        case "nervous":
+          newSrc = smileyGraphic.attr("data-nervous-src");
+          break;
+        case "sunglasses":
+          newSrc = smileyGraphic.attr("data-sunglasses-src");
+          break;
+        case "dead":
+          newSrc = smileyGraphic.attr("data-dead-src");
+          break;
+        default:
+          console.log("wrong argument for controller.setSmileyGraphic()");
+          break;
+      };
+      smileyGraphic.attr("src", newSrc);
+    },
     // Game state functions
     setInitPhase: function() {
       this.setAllTilesActivity(false);
