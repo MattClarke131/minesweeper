@@ -7,10 +7,8 @@ Questions
 2. When should I place helper functions within a larger functions, and when
    should I place them outside as _underscore functions?
 
-
 Notes
-1. getAllConnectedZeroes currently returns an array with duplicate tiles
-2. I now view _underscore() functions as functions with an indent
+1. I now view _underscore() functions as functions with an indent
 
 To Do
 1. Create 4 smiley faces
@@ -19,9 +17,9 @@ To Do
 3. Style numbers or create numbers graphics
 4. Style gameGrid
 
-5. Create model callback functions.
-  5.0. When model updates state, controller should also update state.
-
+To Fix
+1. controller's _setGameValues function calls from a controller object.
+   "controller" is referencing a global variable. Multiple nodes will not work.
 
 For loop checklist
 Nested:
