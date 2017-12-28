@@ -58,6 +58,14 @@ Minesweeper.Controller = function(node) {
         currentTile.attr("data-gameValue", value);
       };
     },
+    // Game state functions
+    _setTilesActivity: function(value) {
+      var gameTiles = $(".gameTile");
+      for(var i=0; i<gameTiles.length; i++) {
+        var currentTile = $(gameTiles[i]);
+        currentTile.attr("data-activity", value)
+      };
+    },
     // Debug
   };
 };
