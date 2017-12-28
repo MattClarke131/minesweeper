@@ -77,6 +77,9 @@ Minesweeper.Controller = function(node) {
       timerOn = true;
       this._incrementTimer();
     },
+    stopTimer: function() {
+      timerOn = false;
+    },
     _incrementTimer: function() {
       if(timerOn) {
         var currentTime = new Date().getTime();
