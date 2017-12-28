@@ -90,7 +90,7 @@ Minesweeper.Model = function() {
       gameGridCallback = func;
     },
     // Game state methods
-    resetGameGrid: function() {
+    resetGameGrid: function(xClick, yClick) {
       // calls callback function
       var newGrid = [];
       for(var i=0; i<xSize; i++) {
@@ -100,11 +100,11 @@ Minesweeper.Model = function() {
         };
       };
       gameGrid = newGrid;
-      this._populateBombs();
+      this._populateBombs(xClick, yClick);
       this._labelGrid();
       gameGridCallback();
     },
-    _populateBombs: function(xClick,yClick) {
+    _populateBombs: function(xClick, yClick) {
       //The first click is always safe, args mark first click
       var bombs = 0;
       while (bombs < numBombs) {
