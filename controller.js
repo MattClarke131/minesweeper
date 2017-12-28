@@ -62,6 +62,10 @@ Minesweeper.Controller = function(node) {
       };
     },
     // Game state functions
+    setInitPhase: function() {
+      this.setAllTilesActivity(false);
+      this.resetTimer();
+    },
     _setAllTilesActivity: function(value) {
       var gameTiles = $(".gameTile");
       for(var i=0; i<gameTiles.length; i++) {
