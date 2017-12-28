@@ -8,6 +8,9 @@ Minesweeper.Controller = function(node) {
   var gameGrid = $(".gameGrid");
   var numGameRows = 10;
   var numGameCols = 10;
+  var initialTime = null;
+  var timerOn = false;
+
   controller = this;
   // Public
   return {
@@ -20,6 +23,7 @@ Minesweeper.Controller = function(node) {
       this._setGameValues();
       this.model.setGameGridCallback(this._setGameValues);
     },
+    // Display Functions
     resetGameGridDisplay() {
       gameGrid.empty();
       this._populateGameRows(numGameRows,numGameCols);
@@ -57,6 +61,105 @@ Minesweeper.Controller = function(node) {
         var value = controller.model.getGameGrid()[ycoord][xcoord];
         currentTile.attr("data-gameValue", value);
       };
+    },
+    _updateMinesDisplay: function(newValue) {
+      // INPUT: string
+      if (newValue.length == 1) {
+        newValue = "00" + newValue;
+      } else if (newValue.length == 2) {
+        newValue = "0" + newValue;
+      } else if (newValue.length > 3) {
+        newValue = 999;
+      }
+      $(".minesDisplay").html(newValue);
+    },
+    setSmileyGraphic(newFace) {
+      // INPUT: string
+      var smileyGraphic = $($(".minesweeper .smileyGraphic")[0]);
+      var newSrc;
+      switch (newFace) {
+        case "smile":
+          newSrc = smileyGraphic.attr("data-smile-src");
+          break;
+        case "nervous":
+          newSrc = smileyGraphic.attr("data-nervous-src");
+          break;
+        case "sunglasses":
+          newSrc = smileyGraphic.attr("data-sunglasses-src");
+          break;
+        case "dead":
+          newSrc = smileyGraphic.attr("data-dead-src");
+          break;
+        default:
+          console.log("wrong argument for controller.setSmileyGraphic()");
+          break;
+      };
+      smileyGraphic.attr("src", newSrc);
+    },
+    // Game state functions
+    setInitPhase: function() {
+      this._setAllTilesActivity(false);
+      this.resetTimer();
+      this.setSmileyGraphic("smile");
+    },
+    setPlayPhase: function() {
+      this.model.resetGameGrid();
+      this._setAllTilesActivity(true);
+      this.startTimer();
+      this.setSmileyGraphic("smile");
+    },
+    setLosePhase: function() {
+      this._setAllTilesActivity(false);
+      this.stopTimer();
+      this.setSmileyGraphic("dead");
+    },
+    setWinPhase: function() {
+      this._setAllTilesActivity(false);
+      this.stopTimer();
+      this.setSmileyGraphic("sunglasses");
+    },
+    _setAllTilesActivity: function(value) {
+      var gameTiles = $(".gameTile");
+      for(var i=0; i<gameTiles.length; i++) {
+        var currentTile = $(gameTiles[i]);
+        currentTile.attr("data-activity", value)
+      };
+    },
+    _setIndividualTileActivity: function(xcoord,ycoord,value) {
+      $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").attr("data-activity", value);
+    },
+    // Time functions
+    startTimer: function() {
+      initialTime = new Date().getTime();
+      timerOn = true;
+      this._incrementTimer();
+    },
+    stopTimer: function() {
+      timerOn = false;
+    },
+    resetTimer: function() {
+      intialTime = null;
+      timerOn = false;
+    },
+    _incrementTimer: function() {
+      if(timerOn) {
+        var currentTime = new Date().getTime();
+        var diff = Math.floor((currentTime - initialTime) / 1000);
+        this._updateTimerDisplay(diff.toString());
+        var controller = this;
+        setTimeout(function() {controller._incrementTimer()}, 250);
+      };
+    },
+    _updateTimerDisplay: function(newValue) {
+      // INPUT: string
+      if (newValue.length === 1) {
+        newValue = "00" + newValue;
+      } else if (newValue.length === 2) {
+        newValue = "0" + newValue;
+      } else if (newValue.length > 3) {
+        newValue = "999";
+      };
+      $(".timerDisplay").html(newValue);
     },
     // Debug
   };
