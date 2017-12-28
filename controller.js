@@ -22,6 +22,7 @@ Minesweeper.Controller = function(node) {
       this.model.resetGameGrid();
       this._setGameValues();
       this.model.setGameGridCallback(this._setGameValues);
+      this.bindSmiley();
     },
     // Display Functions
     resetGameGridDisplay() {
@@ -160,6 +161,13 @@ Minesweeper.Controller = function(node) {
         newValue = "999";
       };
       $(".timerDisplay").html(newValue);
+    },
+    // Binding functions
+    bindSmiley: function() {
+      var controller = this;
+      $(".smileyGraphic").click(function() {
+          controller.setInitPhase();
+        });
     },
     // Debug
   };
