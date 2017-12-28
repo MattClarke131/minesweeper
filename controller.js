@@ -69,6 +69,14 @@ Minesweeper.Controller = function(node) {
     _setIndividualTileActivity: function(xcoord,ycoord,value) {
       $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").attr("data-activity", value);
     },
+    _updateTimerDisplay: function(newValue) {
+      // INPUT: string
+      if(newValue.length <= 3) {
+        $(".timerDisplay").html(newValue);
+      } else {
+        $(".timerDisplay").html("999");
+      };
+    },
     // Debug
   };
 };
