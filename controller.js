@@ -169,6 +169,9 @@ Minesweeper.Controller = function(node) {
           controller.setInitPhase();
         });
     },
+    _bindIndividualTileButton: function(xcoord,ycoord, func) {
+      $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").click(func);
+    },
     // Debug
   };
 };
