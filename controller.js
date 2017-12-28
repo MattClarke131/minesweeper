@@ -17,12 +17,14 @@ Minesweeper.Controller = function(node) {
     model: Minesweeper.Model(),
     // Initialize
     initialize: function() {
-      console.log("initialization successful");
+      numGameRows = this.model.getYSize();
+      numGameCols = this.model.getXSize();
       this.resetGameGridDisplay();
       this.model.resetGameGrid();
       this._setGameValues();
       this.model.setGameGridCallback(this._setGameValues);
       this.bindSmiley();
+      console.log("initialization successful");
     },
     // Display Functions
     resetGameGridDisplay() {
