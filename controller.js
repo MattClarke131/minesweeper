@@ -59,12 +59,15 @@ Minesweeper.Controller = function(node) {
       };
     },
     // Game state functions
-    _setTilesActivity: function(value) {
+    _setAllTilesActivity: function(value) {
       var gameTiles = $(".gameTile");
       for(var i=0; i<gameTiles.length; i++) {
         var currentTile = $(gameTiles[i]);
         currentTile.attr("data-activity", value)
       };
+    },
+    _setIndividualTileActivity: function(xcoord,ycoord,value) {
+      $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").attr("data-activity", value);
     },
     // Debug
   };
