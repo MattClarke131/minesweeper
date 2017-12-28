@@ -66,6 +66,11 @@ Minesweeper.Controller = function(node) {
       this.setAllTilesActivity(false);
       this.resetTimer();
     },
+    setPlayPhase: function() {
+      this.model.resetGameGrid();
+      this.setAllTilesActivity(true);
+      this.startTimer();
+    },
     _setAllTilesActivity: function(value) {
       var gameTiles = $(".gameTile");
       for(var i=0; i<gameTiles.length; i++) {
