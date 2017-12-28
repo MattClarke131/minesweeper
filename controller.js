@@ -18,7 +18,7 @@ Minesweeper.Controller = function(node) {
       this.resetGameGridDisplay();
       this.model.resetGameGrid();
       this._setGameValues();
-      this.model.setCallback(this._setGameValues);
+      this.model.setGameGridCallback(this._setGameValues);
     },
     resetGameGridDisplay() {
       gameGrid.empty();
