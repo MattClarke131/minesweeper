@@ -8,6 +8,9 @@ Minesweeper.Controller = function(node) {
   var gameGrid = $(".gameGrid");
   var numGameRows = 10;
   var numGameCols = 10;
+  var initialTime = null;
+  var timerOn = false;
+
   controller = this;
   // Public
   return {
@@ -68,6 +71,15 @@ Minesweeper.Controller = function(node) {
     },
     _setIndividualTileActivity: function(xcoord,ycoord,value) {
       $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").attr("data-activity", value);
+    },
+    _incrementTimer: function() {
+      if(timerOn) {
+        var currentTime = new Date().getTime();
+        var diff = Math.floor((currentTime - initialTime) / 1000);
+        this._updateTimerDisplay(diff.toString());
+        var controller = this;
+        setTimeout(function() {controller._incrementTimer()}, 250);
+      };
     },
     _updateTimerDisplay: function(newValue) {
       // INPUT: string
