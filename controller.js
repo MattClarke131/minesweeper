@@ -99,11 +99,15 @@ Minesweeper.Controller = function(node) {
       };
       smileyGraphic.attr("src", newSrc);
     },
+    _clearGameGrid: function() {
+      $(".gameTile").empty();
+    },
     // Game state functions
     setInitPhase: function() {
       this._setAllTilesActivity(false);
       this.resetTimer();
       this.setSmileyGraphic("smile");
+      this._clearGameGrid();
     },
     setPlayPhase: function() {
       this.model.resetGameGrid();
