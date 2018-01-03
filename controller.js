@@ -201,6 +201,7 @@ Minesweeper.Controller = function(node) {
       controller.model.resetGameGrid(xcoord,ycoord);
       var gameValue = $(this).attr("data-gameValue");
       $(this).html(gameValue);
+      controller._revealConnectedZeroes(xcoord, ycoord);
       controller.setPlayPhase();
     },
     _tileFunction: function() {
@@ -211,7 +212,20 @@ Minesweeper.Controller = function(node) {
           controller.setLosePhase();
         };
         $(this).html(gameValue);
+        var xcoord = $(this).attr("data-xcoord");
+        var ycoord = $(this).attr("data-ycoord");
+        controller._revealConnectedZeroes(xcoord, ycoord);
       };
+    },
+    _revealConnectedZeroes: function(xcoord, ycoord) {
+      var zeroes = controller.model.getAllConnectedZeroes(xcoord, ycoord);
+      for(var i=0; i<zeroes.length; i++) {
+        var tile = $("[data-xcoord="+zeroes[i][1]+"][data-ycoord="+zeroes[i][0]+"]");
+        tile.unbind();
+        tile.html(tile.attr("data-gameValue"));
+      };
+      /*
+      */
     },
     // Debug
   };
