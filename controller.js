@@ -196,6 +196,8 @@ Minesweeper.Controller = function(node) {
       console.log("_initialTileFunction() called");
       var xcoord = $(this).attr("data-xcoord");
       var ycoord = $(this).attr("data-ycoord");
+      xcoord = Number(xcoord);
+      ycoord = Number(ycoord);
       controller.model.resetGameGrid(xcoord,ycoord);
       var gameValue = $(this).attr("data-gameValue");
       $(this).html(gameValue);
