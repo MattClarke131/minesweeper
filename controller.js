@@ -185,6 +185,25 @@ Minesweeper.Controller = function(node) {
     _bindIndividualTileButton: function(xcoord,ycoord, func) {
       $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").click(func);
     },
+    _initialTileFunction: function() {
+      console.log("_initialTileFunction() called");
+      var xcoord = $(this).attr("data-xcoord");
+      var ycoord = $(this).attr("data-ycoord");
+      controller.model.resetGameGrid(xcoord,ycoord);
+      var gameValue = $(this).attr("data-gameValue");
+      $(this).html(gameValue);
+      controller.setPlayPhase();
+    },
+    _tileFunction: function() {
+      console.log("_tileFunction() called");
+      if($(this).attr("data-activity") == "true") {
+        var gameValue = $(this).attr("data-gameValue");
+        if(gameValue =="bomb") {
+          controller.setLosePhase();
+        };
+        $(this).html(gameValue);
+      };
+    },
     // Debug
   };
 };
