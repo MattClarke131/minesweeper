@@ -11,11 +11,11 @@ Notes
 1. I now view _underscore() functions as functions with an indent
 
 To Do
-1. Create 4 smiley faces
-  -:), :o, B), xx(
-2. Create 2 bomb graphics
-3. Style numbers or create numbers graphics
-4. Style gameGrid
+1. Add connected zeroes mechanic
+2. Add win condition check
+3. Create 2 bomb graphics
+4. Style numbers or create numbers graphics
+5. Style gameGrid
 
 To Fix
 1. controller's _setGameValues function calls from a controller object.
