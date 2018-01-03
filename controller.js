@@ -176,6 +176,7 @@ Minesweeper.Controller = function(node) {
         });
     },
     bindAllTileButtons: function(func) {
+      var controller = this;
       for(var x=0; x<numGameCols; x++) {
         for(var y=0; y<numGameRows; y++) {
           this._bindIndividualTileButton(x,y,func);
@@ -183,6 +184,8 @@ Minesweeper.Controller = function(node) {
       };
     },
     _bindIndividualTileButton: function(xcoord,ycoord, func) {
+      var controller = this;
+      $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").unbind();
       $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").click(func);
     },
     _initialTileFunction: function() {
