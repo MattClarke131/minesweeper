@@ -25,6 +25,7 @@ Minesweeper.Controller = function(node) {
       this.model.setGameGridCallback(this._setGameValues);
       this.bindSmiley();
       console.log("initialization successful");
+      this.setInitPhase();
     },
     // Display Functions
     resetGameGridDisplay() {
