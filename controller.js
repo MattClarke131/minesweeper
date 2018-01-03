@@ -104,26 +104,31 @@ Minesweeper.Controller = function(node) {
     },
     // Game state functions
     setInitPhase: function() {
-      this._setAllTilesActivity(false);
+      this._setAllTilesActivity(true);
       this.resetTimer();
       this.setSmileyGraphic("smile");
+      this.bindAllTileButtons(this._initialTileFunction);
       this._clearGameGrid();
+      console.log("initPhase");
     },
     setPlayPhase: function() {
-      this.model.resetGameGrid();
       this._setAllTilesActivity(true);
       this.startTimer();
       this.setSmileyGraphic("smile");
+      this.bindAllTileButtons(this._tileFunction);
+      console.log("playPhase");
     },
     setLosePhase: function() {
       this._setAllTilesActivity(false);
       this.stopTimer();
       this.setSmileyGraphic("dead");
+      console.log("losePhase");
     },
     setWinPhase: function() {
       this._setAllTilesActivity(false);
       this.stopTimer();
       this.setSmileyGraphic("sunglasses");
+      console.log("winPhase");
     },
     _setAllTilesActivity: function(value) {
       var gameTiles = $(".gameTile");
