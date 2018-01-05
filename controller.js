@@ -25,9 +25,20 @@ Minesweeper.Controller = function(node) {
       console.log("initialization successful");
       this.setInitPhase();
     },
+    _setGameValues: function() {
+      //Sets gameValues for all tiles;
+      var gameTiles = $(".gameTile");
+      for(var i=0; i<gameTiles.length; i++) {
+        var currentTile = $(gameTiles[i]);
+        var xcoord = currentTile.attr("data-xcoord");
+        var ycoord = currentTile.attr("data-ycoord");
+        var value = controller.model.getGameGrid()[ycoord][xcoord];
+        currentTile.attr("data-gameValue", value);
+      };
+    },
     // Display Functions
     resetGameGridDisplay() {
-      gameGrid.empty();
+      this._clearGameGrid();
       this._populateGameRows(numGameRows,numGameCols);
     },
     _populateGameRows: function(numRows,numCols) {
@@ -52,17 +63,6 @@ Minesweeper.Controller = function(node) {
       newTile.attr("data-xcoord",xcoord);
       newTile.attr("data-ycoord",ycoord);
       return newTile;
-    },
-    _setGameValues: function() {
-      //Sets gameValues for all tiles;
-      var gameTiles = $(".gameTile");
-      for(var i=0; i<gameTiles.length; i++) {
-        var currentTile = $(gameTiles[i]);
-        var xcoord = currentTile.attr("data-xcoord");
-        var ycoord = currentTile.attr("data-ycoord");
-        var value = controller.model.getGameGrid()[ycoord][xcoord];
-        currentTile.attr("data-gameValue", value);
-      };
     },
     _updateMinesDisplay: function(newValue) {
       // INPUT: string
