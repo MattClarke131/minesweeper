@@ -194,28 +194,33 @@ Minesweeper.Controller = function(node) {
     },
     _initialTileFunction: function() {
       console.log("_initialTileFunction() called");
-      var xcoord = $(this).attr("data-xcoord");
-      var ycoord = $(this).attr("data-ycoord");
-      xcoord = Number(xcoord);
-      ycoord = Number(ycoord);
-      controller.model.resetGameGrid(xcoord,ycoord);
+      var xcoord = Number($(this).attr("data-xcoord"));
+      var ycoord = Number($(this).attr("data-ycoord"));
       var gameValue = $(this).attr("data-gameValue");
-      $(this).html(gameValue);
-      controller._revealConnectedZeroes(xcoord, ycoord);
+      controller.model.resetGameGrid(xcoord,ycoord);
+      controller.revealTile(xcoord, ycoord);
       controller.setPlayPhase();
     },
     _tileFunction: function() {
       console.log("_tileFunction() called");
+      var xcoord = $(this).attr("data-xcoord");
+      var ycoord = $(this).attr("data-ycoord");
+      var gameValue = $(this).attr("data-gameValue");
       if($(this).attr("data-activity") == "true") {
-        var gameValue = $(this).attr("data-gameValue");
+        controller._revealTile(xcoord, ycoord);
         if(gameValue =="bomb") {
           controller.setLosePhase();
         };
-        $(this).html(gameValue);
-        var xcoord = $(this).attr("data-xcoord");
-        var ycoord = $(this).attr("data-ycoord");
-        controller._revealConnectedZeroes(xcoord, ycoord);
+        if(gameValue = "0") {
+          controller._revealConnectedZeroes(xcoord, ycoord);
+        };
       };
+    },
+    _revealTile: function(xcoord, ycoord) {
+      var tile = $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]");
+      gameValue = tile.attr("data-gameValue");
+      tile.html(gameValue);
+      tile.attr("data-activity", false);
     },
     _revealConnectedZeroes: function(xcoord, ycoord) {
       var zeroes = controller.model.getAllConnectedZeroes(xcoord, ycoord);
