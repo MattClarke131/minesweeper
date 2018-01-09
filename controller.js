@@ -198,7 +198,7 @@ Minesweeper.Controller = function(node) {
       var ycoord = Number($(this).attr("data-ycoord"));
       var gameValue = $(this).attr("data-gameValue");
       controller.model.resetGameGrid(xcoord,ycoord);
-      controller.revealTile(xcoord, ycoord);
+      controller._revealTile(xcoord, ycoord);
       controller.setPlayPhase();
     },
     _tileFunction: function() {
