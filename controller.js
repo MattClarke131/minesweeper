@@ -196,9 +196,12 @@ Minesweeper.Controller = function(node) {
       console.log("_initialTileFunction() called");
       var xcoord = Number($(this).attr("data-xcoord"));
       var ycoord = Number($(this).attr("data-ycoord"));
-      var gameValue = $(this).attr("data-gameValue");
       controller.model.resetGameGrid(xcoord,ycoord);
       controller._revealTile(xcoord, ycoord);
+      var gameValue = $(this).attr("data-gameValue");
+      if(gameValue == "0") {
+        controller._revealConnectedZeroes(xcoord, ycoord);
+      };
       controller.setPlayPhase();
     },
     _tileFunction: function() {
