@@ -50,7 +50,7 @@ Minesweeper.Model = function() {
       };
       // "Paint fill" algorithm
       while(uncheckedTiles.length > 0) {
-        currentTile = uncheckedTiles[0];
+        var currentTile = uncheckedTiles[0];
         checkedTiles[currentTile[0]][currentTile[1]] = true;
         var newZeroes = this._getOrthogZeroes(currentTile[0],currentTile[1]);
         newZeroes = filterCheckedZeroes(newZeroes);
