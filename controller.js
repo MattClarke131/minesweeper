@@ -193,6 +193,7 @@ Minesweeper.Controller = function(node) {
       $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").click(func);
     },
     _initialTileFunction: function() {
+      controller.setPlayPhase();
       console.log("_initialTileFunction() called");
       var xcoord = Number($(this).attr("data-xcoord"));
       var ycoord = Number($(this).attr("data-ycoord"));
@@ -202,7 +203,6 @@ Minesweeper.Controller = function(node) {
       if(gameValue == "0") {
         controller._revealConnectedZeroes(xcoord, ycoord);
       };
-      controller.setPlayPhase();
     },
     _tileFunction: function() {
       console.log("_tileFunction() called");
