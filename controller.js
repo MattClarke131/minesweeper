@@ -1,5 +1,6 @@
-console.log("controller successfully loaded");
+"use strict";
 
+console.log("controller successfully loaded");
 Minesweeper.Controller = function(node) {
   // Private
   var minesweeper = node;
