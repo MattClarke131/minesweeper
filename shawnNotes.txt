@@ -2,3 +2,43 @@ Minesweeper 2017
 Shawn Notes
 
 "Show me the data structures and I'll show you the algorithm"
+
+git blame:
+  Useful for figuring out why something changed
+  Ex. flipping of y and x in _setGameValues. How did this bug get in the
+    codebase?
+  Syntax ex.:
+    git blame controller.js
+    (find line 36 (line with bug))
+    git show (commit name)
+    git blame (commit name)~1 -- controller.js (dig deeper, before commit)
+      (-- separates arguments from files names)
+
+terminal style:
+  search "solarized"
+
+git checkout -
+  checkout the last branch/commit you were on
+
+== vs ===
+use two until you know when to use three
+
+"use strict"
+  Must be first line of file
+    Can also be at the beginning of a function, but why do that?
+  Requires var declarations
+
+google let vs var
+
+How to rename a git commit
+  git rebase -i HEAD~10
+    (shows last 10 commits)
+  change pick to reword
+
+MVC
+"Can you play the game without using the controller?"
+  The answer should be yes
+"The controller shouldn't have game rules in it"
+
+TO DO
+Change closure variables to look within node
