@@ -6,8 +6,8 @@ Minesweeper.Controller = function(node) {
   var gameTileTemplate = $(".gameTileTemplate");
   var gameRowTemplate = $(".gameRowTemplate");
   var gameGrid = $(".gameGrid");
-  var numGameRows = 10;
-  var numGameCols = 10;
+  var numGameRows;
+  var numGameCols;
   var initialTime = null;
   var timerOn = false;
 
