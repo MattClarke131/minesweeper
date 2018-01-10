@@ -211,11 +211,11 @@ Minesweeper.Controller = function(node) {
       var gameValue = $(this).attr("data-gameValue");
       if($(this).attr("data-activity") == "true") {
         controller._revealTile(xcoord, ycoord);
-        if(gameValue =="bomb") {
-          controller.setLosePhase();
-        };
-        if(gameValue = "0") {
+        if(gameValue == "0") {
           controller._revealConnectedZeroes(xcoord, ycoord);
+        };
+        if(gameValue == "bomb") {
+          controller.setLosePhase();
         };
       };
     },
