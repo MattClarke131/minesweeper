@@ -199,42 +199,42 @@ Minesweeper.Controller = function(node) {
       var ycoord = Number($(this).attr("data-ycoord"));
       controller.model.resetGameGrid(xcoord,ycoord);
       controller._revealTile(xcoord, ycoord);
-      var gameValue = $(this).attr("data-gameValue");
-      if(gameValue == "0") {
-        controller._revealConnectedZeroes(xcoord, ycoord);
-      };
     },
     _tileFunction: function() {
       console.log("_tileFunction() called");
       var xcoord = $(this).attr("data-xcoord");
       var ycoord = $(this).attr("data-ycoord");
-      var gameValue = $(this).attr("data-gameValue");
-      if($(this).attr("data-activity") == "true") {
         controller._revealTile(xcoord, ycoord);
-        if(gameValue == "0") {
-          controller._revealConnectedZeroes(xcoord, ycoord);
-        };
-        if(gameValue == "bomb") {
-          controller.setLosePhase();
-        };
-      };
     },
     _revealTile: function(xcoord, ycoord) {
       var tile = $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]");
       var gameValue = tile.attr("data-gameValue");
-      tile.html(gameValue);
-      tile.attr("data-activity", false);
-
-    },
-    _revealConnectedZeroes: function(xcoord, ycoord) {
-      var zeroes = controller.model.getAllConnectedZeroes(xcoord, ycoord);
-      for(var i=0; i<zeroes.length; i++) {
-        var tile = $("[data-xcoord="+zeroes[i][1]+"][data-ycoord="+zeroes[i][0]+"]");
-        tile.unbind();
-        tile.html(tile.attr("data-gameValue"));
+      if (! tile.length) {
+        return;
       };
-      /*
-      */
+      if(tile.attr("data-activity") == "true") {
+        var gameValue = tile.attr("data-gameValue");
+        tile.html(gameValue);
+        tile.attr("data-activity", "false");
+        if(gameValue == "0") {
+          var surroundingZeroes = [
+            [xcoord-1, ycoord-1],
+            [xcoord-1, ycoord],
+            [xcoord-1, ycoord+1],
+            [xcoord, ycoord-1],
+            [xcoord, ycoord+1],
+            [xcoord+1, ycoord-1],
+            [xcoord+1, ycoord],
+            [xcoord+1, ycoord+1],
+          ];
+          for(var i=0; i<surroundingZeroes.length; i++) {
+            this._revealTile(surroundingZeroes[i][0],surroundingZeroes[i][1]);
+          }
+        };
+      };
+      if(gameValue == "bomb") {
+        controller.setLosePhase();
+      };
     },
     // Debug
   };
