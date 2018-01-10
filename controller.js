@@ -32,7 +32,7 @@ Minesweeper.Controller = function(node) {
         var currentTile = $(gameTiles[i]);
         var xcoord = currentTile.attr("data-xcoord");
         var ycoord = currentTile.attr("data-ycoord");
-        var value = controller.model.getGameGrid()[ycoord][xcoord];
+        var value = controller.model.getGameGrid()[xcoord][ycoord];
         currentTile.attr("data-gameValue", value);
       };
     },
