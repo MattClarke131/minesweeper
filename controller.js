@@ -221,9 +221,10 @@ Minesweeper.Controller = function(node) {
     },
     _revealTile: function(xcoord, ycoord) {
       var tile = $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]");
-      gameValue = tile.attr("data-gameValue");
+      var gameValue = tile.attr("data-gameValue");
       tile.html(gameValue);
       tile.attr("data-activity", false);
+
     },
     _revealConnectedZeroes: function(xcoord, ycoord) {
       var zeroes = controller.model.getAllConnectedZeroes(xcoord, ycoord);
