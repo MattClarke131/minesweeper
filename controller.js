@@ -149,7 +149,7 @@ Minesweeper.Controller = function(node) {
       timerOn = false;
     },
     resetTimer: function() {
-      intialTime = null;
+      initialTime = null;
       timerOn = false;
     },
     _incrementTimer: function() {
