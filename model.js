@@ -19,7 +19,7 @@ Minesweeper.Model = function() {
     },
     getRevealedGrid: function() {
       return revealedGrid;
-    }
+    },
     getXSize: function() {
       return xSize;
     },
