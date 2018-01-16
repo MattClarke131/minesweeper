@@ -11,7 +11,7 @@ Minesweeper.Controller = function(node) {
   var initialTime = null;
   var timerOn = false;
 
-  controller = this;
+  var controller = this;
   // Public
   return {
     model: Minesweeper.Model(),
