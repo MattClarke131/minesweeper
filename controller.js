@@ -11,8 +11,6 @@ Minesweeper.Controller = function(node) {
   var numGameCols;
   var initialTime = null;
   var timerOn = false;
-
-  var controller = this;
   // Public
   return {
     model: Minesweeper.Model(),
