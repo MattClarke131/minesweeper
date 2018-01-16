@@ -13,12 +13,18 @@ Questions
 Notes
 1. I now view _underscore() functions as functions with an indent
 
+
 To Do
-1. Add connected zeroes mechanic
-2. Add win condition check
-3. Create 2 bomb graphics
-4. Style numbers or create numbers graphics
-5. Style gameGrid
++ Move revealTile to model
++ Fix nervous face
++ Fix connected zeroes mechanic
++ Add win condition check
++ Add flag mechanic
++ Create flag graphic
++ Double click to click all nonflagged tiles function
++ Create 2 bomb graphics
++ Style numbers or create numbers graphics
++ Style gameGrid
 
 To Fix
 1. controller's _setGameValues function calls from a controller object.

@@ -1,13 +1,14 @@
-console.log("controller successfully loaded");
+"use strict";
 
+console.log("controller successfully loaded");
 Minesweeper.Controller = function(node) {
   // Private
   var minesweeper = node;
   var gameTileTemplate = $(".gameTileTemplate");
   var gameRowTemplate = $(".gameRowTemplate");
   var gameGrid = $(".gameGrid");
-  var numGameRows = 10;
-  var numGameCols = 10;
+  var numGameRows;
+  var numGameCols;
   var initialTime = null;
   var timerOn = false;
 
@@ -32,7 +33,7 @@ Minesweeper.Controller = function(node) {
         var currentTile = $(gameTiles[i]);
         var xcoord = currentTile.attr("data-xcoord");
         var ycoord = currentTile.attr("data-ycoord");
-        var value = controller.model.getGameGrid()[ycoord][xcoord];
+        var value = controller.model.getGameGrid()[xcoord][ycoord];
         currentTile.attr("data-gameValue", value);
       };
     },
@@ -149,7 +150,7 @@ Minesweeper.Controller = function(node) {
       timerOn = false;
     },
     resetTimer: function() {
-      intialTime = null;
+      initialTime = null;
       timerOn = false;
     },
     _incrementTimer: function() {
@@ -193,44 +194,48 @@ Minesweeper.Controller = function(node) {
       $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").click(func);
     },
     _initialTileFunction: function() {
+      controller.setPlayPhase();
       console.log("_initialTileFunction() called");
       var xcoord = Number($(this).attr("data-xcoord"));
       var ycoord = Number($(this).attr("data-ycoord"));
-      var gameValue = $(this).attr("data-gameValue");
       controller.model.resetGameGrid(xcoord,ycoord);
       controller._revealTile(xcoord, ycoord);
-      controller.setPlayPhase();
     },
     _tileFunction: function() {
       console.log("_tileFunction() called");
       var xcoord = $(this).attr("data-xcoord");
       var ycoord = $(this).attr("data-ycoord");
-      var gameValue = $(this).attr("data-gameValue");
-      if($(this).attr("data-activity") == "true") {
         controller._revealTile(xcoord, ycoord);
-        if(gameValue =="bomb") {
-          controller.setLosePhase();
-        };
-        if(gameValue = "0") {
-          controller._revealConnectedZeroes(xcoord, ycoord);
-        };
-      };
     },
     _revealTile: function(xcoord, ycoord) {
       var tile = $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]");
-      gameValue = tile.attr("data-gameValue");
-      tile.html(gameValue);
-      tile.attr("data-activity", false);
-    },
-    _revealConnectedZeroes: function(xcoord, ycoord) {
-      var zeroes = controller.model.getAllConnectedZeroes(xcoord, ycoord);
-      for(var i=0; i<zeroes.length; i++) {
-        var tile = $("[data-xcoord="+zeroes[i][1]+"][data-ycoord="+zeroes[i][0]+"]");
-        tile.unbind();
-        tile.html(tile.attr("data-gameValue"));
+      var gameValue = tile.attr("data-gameValue");
+      if (! tile.length) {
+        return;
       };
-      /*
-      */
+      if(tile.attr("data-activity") == "true") {
+        var gameValue = tile.attr("data-gameValue");
+        tile.html(gameValue);
+        tile.attr("data-activity", "false");
+        if(gameValue == "0") {
+          var surroundingZeroes = [
+            [xcoord-1, ycoord-1],
+            [xcoord-1, ycoord],
+            [xcoord-1, ycoord+1],
+            [xcoord, ycoord-1],
+            [xcoord, ycoord+1],
+            [xcoord+1, ycoord-1],
+            [xcoord+1, ycoord],
+            [xcoord+1, ycoord+1],
+          ];
+          for(var i=0; i<surroundingZeroes.length; i++) {
+            this._revealTile(surroundingZeroes[i][0],surroundingZeroes[i][1]);
+          }
+        };
+      };
+      if(gameValue == "bomb") {
+        controller.setLosePhase();
+      };
     },
     // Debug
   };
