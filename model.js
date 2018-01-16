@@ -120,6 +120,10 @@ Minesweeper.Model = function() {
         console.log(flippedGrid[i]);
       };
     },
+    printRevealedGrid: function() {
+      var flippedGrid = this.getFlippedGrid(revealedGrid);
+      for(var i=0; i<flippedGrid.length; i++) {
+        console.log(flippedGrid[i]);
       };
     },
   };
