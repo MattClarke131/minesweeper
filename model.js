@@ -5,6 +5,7 @@ var Minesweeper = {}
 Minesweeper.Model = function() {
   // Private
   var gameGrid;
+  var revealedGrid;
   var xSize = 10;
   var ySize = 10;
   var numBombs = 10;
@@ -16,6 +17,9 @@ Minesweeper.Model = function() {
     getGameGrid: function() {
       return gameGrid;
     },
+    getRevealedGrid: function() {
+      return revealedGrid;
+    }
     getXSize: function() {
       return xSize;
     },
@@ -79,6 +83,15 @@ Minesweeper.Model = function() {
         };
       };
       return neighboringBombs;
+    },
+    resetRevealedGrid: function() {
+      var newGrid = [];
+      for(var x=0; x<xSize; x++) {
+        newGrid.push([]);
+        for(var y=0; y<ySize; y++) {
+          newGrid[x].push(false);
+        }
+      }
     },
     // DEBUG
     printGameGrid: function() {
