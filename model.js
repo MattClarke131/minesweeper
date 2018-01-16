@@ -102,8 +102,17 @@ Minesweeper.Model = function() {
     },
     // DEBUG
     printGameGrid: function() {
-      for(var i=0; i<gameGrid.length;i++) {
-        console.log(gameGrid[i]);
+      var newGrid = [];
+      for(var y=0; y<ySize; y++) {
+        newGrid.push([]);
+      };
+      for(var y=0; y<ySize; y++) {
+        for(var x=0; x<xSize; x++) {
+          newGrid[y].push(gameGrid[x][y]);
+        };
+      };
+      for(var i=0; i<newGrid.length; i++) {
+        console.log(newGrid[i]);
       };
     },
   };
