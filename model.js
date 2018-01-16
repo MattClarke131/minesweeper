@@ -93,6 +93,9 @@ Minesweeper.Model = function() {
         }
       }
     },
+    revealTile: function(xcoord, ycoord) {
+      revealedGrid[xcoord][ycoord] = true;
+    },
     // DEBUG
     printGameGrid: function() {
       for(var i=0; i<gameGrid.length;i++) {
