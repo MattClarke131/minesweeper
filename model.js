@@ -93,8 +93,9 @@ Minesweeper.Model = function() {
         newGrid.push([]);
         for(var y=0; y<ySize; y++) {
           newGrid[x].push(false);
-        }
-      }
+        };
+      };
+      revealedGrid = newGrid;
     },
     revealTile: function(xcoord, ycoord) {
       revealedGrid[xcoord][ycoord] = true;
