@@ -10,7 +10,7 @@ Minesweeper.Model = function() {
   var ySize = 10;
   var numBombs = 10;
   var gameGridCallback = function() {};
-
+  var revealedGridCallback = function () {};
   // Public
   var minesweeper = {
     // Get methods
@@ -29,6 +29,9 @@ Minesweeper.Model = function() {
     // Set methods
     setGameGridCallback: function(func) {
       gameGridCallback = func;
+    },
+    setRevealedGridCallBack: function(func) {
+      revealedGridCallback = func;
     },
     // Game state methods
     resetGameGrid: function(xClick, yClick) {
@@ -95,6 +98,7 @@ Minesweeper.Model = function() {
     },
     revealTile: function(xcoord, ycoord) {
       revealedGrid[xcoord][ycoord] = true;
+      revealedGridCallback();
     },
     // DEBUG
     printGameGrid: function() {
