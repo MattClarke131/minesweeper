@@ -102,18 +102,24 @@ Minesweeper.Model = function() {
       revealedGridCallback();
     },
     // DEBUG
-    printGameGrid: function() {
-      var newGrid = [];
+    getFlippedGrid: function(grid) {
+      var flippedGrid = [];
       for(var y=0; y<ySize; y++) {
-        newGrid.push([]);
+        flippedGrid.push([]);
       };
       for(var y=0; y<ySize; y++) {
         for(var x=0; x<xSize; x++) {
-          newGrid[y].push(gameGrid[x][y]);
+          flippedGrid[y].push(grid[x][y]);
         };
       };
-      for(var i=0; i<newGrid.length; i++) {
-        console.log(newGrid[i]);
+      return flippedGrid;
+    },
+    printGameGrid: function() {
+      var flippedGrid = this.getFlippedGrid(gameGrid);
+      for(var i=0; i<flippedGrid.length; i++) {
+        console.log(flippedGrid[i]);
+      };
+    },
       };
     },
   };
