@@ -109,8 +109,6 @@ Minesweeper.Controller = function(node) {
           var visible = grid[x][y];
           if(visible) {
             tile.attr("data-revealed", "true")
-            var gameValue = tile.attr("data-gameValue");
-            tile.html(gameValue);
           } else {
             tile.attr("data-revealed", "false");
           };
