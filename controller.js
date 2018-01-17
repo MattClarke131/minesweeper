@@ -122,6 +122,8 @@ Minesweeper.Controller = function(node) {
       this.setSmileyGraphic("smile");
       this.bindAllTileButtons(this._initialTileFunction);
       this._clearGameGrid();
+      this.model.resetRevealedGrid();
+      this.updateRevealedTiles();
       console.log("initPhase");
     },
     setPlayPhase: function() {
