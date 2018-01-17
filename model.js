@@ -98,7 +98,30 @@ Minesweeper.Model = function() {
       revealedGrid = newGrid;
     },
     revealTile: function(xcoord, ycoord) {
-      revealedGrid[xcoord][ycoord] = true;
+      if(gameGrid[xcoord] == undefined) {
+        return;
+      } else if(gameGrid[xcoord][ycoord] == undefined) {
+        return;
+      };
+      var gameValue = gameGrid[xcoord][ycoord];
+      if(!revealedGrid[xcoord][ycoord]) {
+        revealedGrid[xcoord][ycoord] = true;
+        if (gameValue == "0") {
+          var surroundingZeroes = [
+            [xcoord-1, ycoord-1],
+            [xcoord-1, ycoord],
+            [xcoord-1, ycoord+1],
+            [xcoord, ycoord-1],
+            [xcoord, ycoord+1],
+            [xcoord+1, ycoord-1],
+            [xcoord+1, ycoord],
+            [xcoord+1, ycoord+1],
+          ];
+          for(var i=0; i<surroundingZeroes.length; i++) {
+            this.revealTile(surroundingZeroes[i][0],surroundingZeroes[i][1])
+          };
+        };
+      };
       revealedGridCallback();
     },
     // DEBUG
