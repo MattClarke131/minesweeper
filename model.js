@@ -105,6 +105,9 @@ Minesweeper.Model = function() {
         return;
       };
       var gameValue = gameGrid[xcoord][ycoord];
+      if(gameValue == "bomb") {
+        this._revealAllBombs();
+      };
       if(!revealedGrid[xcoord][ycoord]) {
         revealedGrid[xcoord][ycoord] = true;
         if (gameValue == "0") {
@@ -124,6 +127,15 @@ Minesweeper.Model = function() {
         };
       };
       revealedGridCallback();
+    },
+    _revealAllBombs: function() {
+      for(var x=0; x<xSize; x++) {
+        for(var y=0; y<ySize; y++) {
+          if(gameGrid[x][y] == "bomb") {
+            revealedGrid[x][y] = true;
+          };
+        };
+      };
     },
     checkWin: function() {
       var unclicked = 0;
