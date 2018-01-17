@@ -74,6 +74,9 @@ Minesweeper.Controller = function(node) {
       }
       $(".minesDisplay").html(newValue);
     },
+    _clearGameGrid: function() {
+      $(".gameTile").empty();
+    },
     setSmileyGraphic(newFace) {
       // INPUT: string
       var smileyGraphic = $($(".minesweeper .smileyGraphic")[0]);
@@ -97,8 +100,6 @@ Minesweeper.Controller = function(node) {
       };
       smileyGraphic.attr("src", newSrc);
     },
-    _clearGameGrid: function() {
-      $(".gameTile").empty();
     },
     // Game state functions
     setInitPhase: function() {
