@@ -96,6 +96,7 @@ Minesweeper.Model = function() {
         };
       };
       revealedGrid = newGrid;
+      revealedGridCallback();
     },
     revealTile: function(xcoord, ycoord) {
       if(gameGrid[xcoord] == undefined) {

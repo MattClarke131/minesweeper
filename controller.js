@@ -20,6 +20,7 @@ Minesweeper.Controller = function(node) {
       numGameCols = this.model.getXSize();
       this.resetGameGridDisplay();
       this.model.setGameGridCallback(this._setGameValues);
+      this.model.setRevealedGridCallBack(this.updateRevealedTiles);
       this.bindSmiley();
       console.log("initialization successful");
       this.setInitPhase();
@@ -100,6 +101,20 @@ Minesweeper.Controller = function(node) {
       };
       smileyGraphic.attr("src", newSrc);
     },
+    updateRevealedTiles: function() {
+      var grid = controller.model.getRevealedGrid();
+      for(var x=0; x<numGameCols; x++) {
+        for(var y=0; y<numGameRows; y++) {
+          var tile = $("[data-xcoord="+x+"][data-ycoord="+y+"]");
+          var visible = grid[x][y];
+          console.log(visible);
+          if(visible) {
+            tile.attr("data-revealed", "true")
+          } else {
+            tile.attr("data-revealed", "false");
+          };
+        };
+      };
     },
     // Game state functions
     setInitPhase: function() {
