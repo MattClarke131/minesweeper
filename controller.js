@@ -11,8 +11,6 @@ Minesweeper.Controller = function(node) {
   var numGameCols;
   var initialTime = null;
   var timerOn = false;
-
-  var controller = this;
   // Public
   return {
     model: Minesweeper.Model(),
@@ -22,6 +20,7 @@ Minesweeper.Controller = function(node) {
       numGameCols = this.model.getXSize();
       this.resetGameGridDisplay();
       this.model.setGameGridCallback(this._setGameValues);
+      this.model.setRevealedGridCallBack(this.updateRevealedTiles);
       this.bindSmiley();
       console.log("initialization successful");
       this.setInitPhase();
@@ -39,7 +38,6 @@ Minesweeper.Controller = function(node) {
     },
     // Display Functions
     resetGameGridDisplay() {
-      this._clearGameGrid();
       this._populateGameRows(numGameRows,numGameCols);
     },
     _populateGameRows: function(numRows,numCols) {
@@ -99,8 +97,19 @@ Minesweeper.Controller = function(node) {
       };
       smileyGraphic.attr("src", newSrc);
     },
-    _clearGameGrid: function() {
-      $(".gameTile").empty();
+    updateRevealedTiles: function() {
+      var grid = controller.model.getRevealedGrid();
+      for(var x=0; x<numGameCols; x++) {
+        for(var y=0; y<numGameRows; y++) {
+          var tile = $("[data-xcoord="+x+"][data-ycoord="+y+"]");
+          var visible = grid[x][y];
+          if(visible) {
+            tile.attr("data-revealed", "true")
+          } else {
+            tile.attr("data-revealed", "false");
+          };
+        };
+      };
     },
     // Game state functions
     setInitPhase: function() {
@@ -108,7 +117,8 @@ Minesweeper.Controller = function(node) {
       this.resetTimer();
       this.setSmileyGraphic("smile");
       this.bindAllTileButtons(this._initialTileFunction);
-      this._clearGameGrid();
+      this.model.resetRevealedGrid();
+      this.updateRevealedTiles();
       console.log("initPhase");
     },
     setPlayPhase: function() {
@@ -195,46 +205,25 @@ Minesweeper.Controller = function(node) {
     },
     _initialTileFunction: function() {
       controller.setPlayPhase();
-      console.log("_initialTileFunction() called");
       var xcoord = Number($(this).attr("data-xcoord"));
       var ycoord = Number($(this).attr("data-ycoord"));
       controller.model.resetGameGrid(xcoord,ycoord);
-      controller._revealTile(xcoord, ycoord);
+      controller.model.resetRevealedGrid();
+      controller.model.revealTile(xcoord, ycoord);
+      if(controller.model.checkWin()) {
+        controller.setWinPhase();
+      };
     },
     _tileFunction: function() {
-      console.log("_tileFunction() called");
-      var xcoord = $(this).attr("data-xcoord");
-      var ycoord = $(this).attr("data-ycoord");
-        controller._revealTile(xcoord, ycoord);
-    },
-    _revealTile: function(xcoord, ycoord) {
-      var tile = $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]");
-      var gameValue = tile.attr("data-gameValue");
-      if (! tile.length) {
-        return;
-      };
-      if(tile.attr("data-activity") == "true") {
-        var gameValue = tile.attr("data-gameValue");
-        tile.html(gameValue);
-        tile.attr("data-activity", "false");
-        if(gameValue == "0") {
-          var surroundingZeroes = [
-            [xcoord-1, ycoord-1],
-            [xcoord-1, ycoord],
-            [xcoord-1, ycoord+1],
-            [xcoord, ycoord-1],
-            [xcoord, ycoord+1],
-            [xcoord+1, ycoord-1],
-            [xcoord+1, ycoord],
-            [xcoord+1, ycoord+1],
-          ];
-          for(var i=0; i<surroundingZeroes.length; i++) {
-            this._revealTile(surroundingZeroes[i][0],surroundingZeroes[i][1]);
-          }
+      if($(this).attr("data-activity") == "true") {
+        var xcoord = $(this).attr("data-xcoord");
+        var ycoord = $(this).attr("data-ycoord");
+        controller.model.revealTile(xcoord, ycoord);
+        if(controller.model.checkWin()) {
+          controller.setWinPhase();
+        } else if(controller.model.checkLoss()) {
+          controller.setLosePhase();
         };
-      };
-      if(gameValue == "bomb") {
-        controller.setLosePhase();
       };
     },
     // Debug

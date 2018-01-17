@@ -5,16 +5,20 @@ var Minesweeper = {}
 Minesweeper.Model = function() {
   // Private
   var gameGrid;
+  var revealedGrid;
   var xSize = 10;
   var ySize = 10;
   var numBombs = 10;
   var gameGridCallback = function() {};
-
+  var revealedGridCallback = function () {};
   // Public
   var minesweeper = {
     // Get methods
     getGameGrid: function() {
       return gameGrid;
+    },
+    getRevealedGrid: function() {
+      return revealedGrid;
     },
     getXSize: function() {
       return xSize;
@@ -25,6 +29,9 @@ Minesweeper.Model = function() {
     // Set methods
     setGameGridCallback: function(func) {
       gameGridCallback = func;
+    },
+    setRevealedGridCallBack: function(func) {
+      revealedGridCallback = func;
     },
     // Game state methods
     resetGameGrid: function(xClick, yClick) {
@@ -80,10 +87,106 @@ Minesweeper.Model = function() {
       };
       return neighboringBombs;
     },
+    resetRevealedGrid: function() {
+      var newGrid = [];
+      for(var x=0; x<xSize; x++) {
+        newGrid.push([]);
+        for(var y=0; y<ySize; y++) {
+          newGrid[x].push(false);
+        };
+      };
+      revealedGrid = newGrid;
+      revealedGridCallback();
+    },
+    revealTile: function(xcoord, ycoord) {
+      if(gameGrid[xcoord] == undefined) {
+        return;
+      } else if(gameGrid[xcoord][ycoord] == undefined) {
+        return;
+      };
+      var gameValue = gameGrid[xcoord][ycoord];
+      if(gameValue == "bomb") {
+        this._revealAllBombs();
+      };
+      if(!revealedGrid[xcoord][ycoord]) {
+        revealedGrid[xcoord][ycoord] = true;
+        if (gameValue == "0") {
+          var surroundingZeroes = [
+            [xcoord-1, ycoord-1],
+            [xcoord-1, ycoord],
+            [xcoord-1, ycoord+1],
+            [xcoord, ycoord-1],
+            [xcoord, ycoord+1],
+            [xcoord+1, ycoord-1],
+            [xcoord+1, ycoord],
+            [xcoord+1, ycoord+1],
+          ];
+          for(var i=0; i<surroundingZeroes.length; i++) {
+            this.revealTile(surroundingZeroes[i][0],surroundingZeroes[i][1])
+          };
+        };
+      };
+      revealedGridCallback();
+    },
+    _revealAllBombs: function() {
+      for(var x=0; x<xSize; x++) {
+        for(var y=0; y<ySize; y++) {
+          if(gameGrid[x][y] == "bomb") {
+            revealedGrid[x][y] = true;
+          };
+        };
+      };
+    },
+    checkWin: function() {
+      var unclicked = 0;
+      for(var x=0; x<xSize; x++) {
+        for(var y=0; y<ySize; y++) {
+          if(!revealedGrid[x][y]) {
+            unclicked++;
+          }
+        }
+      }
+      if(unclicked == numBombs && this.checkLoss() == false) {
+        return true;
+      } else {
+        return false;
+      };
+    },
+    checkLoss: function() {
+      for(var x=0; x<xSize; x++) {
+        for(var y=0; y<ySize; y++) {
+          if(revealedGrid[x][y]) {
+            if(gameGrid[x][y] == "bomb") {
+              return true;
+            }
+          };
+        };
+      };
+      return false;
+    },
     // DEBUG
+    getFlippedGrid: function(grid) {
+      var flippedGrid = [];
+      for(var y=0; y<ySize; y++) {
+        flippedGrid.push([]);
+      };
+      for(var y=0; y<ySize; y++) {
+        for(var x=0; x<xSize; x++) {
+          flippedGrid[y].push(grid[x][y]);
+        };
+      };
+      return flippedGrid;
+    },
     printGameGrid: function() {
-      for(var i=0; i<gameGrid.length;i++) {
-        console.log(gameGrid[i]);
+      var flippedGrid = this.getFlippedGrid(gameGrid);
+      for(var i=0; i<flippedGrid.length; i++) {
+        console.log(flippedGrid[i]);
+      };
+    },
+    printRevealedGrid: function() {
+      var flippedGrid = this.getFlippedGrid(revealedGrid);
+      for(var i=0; i<flippedGrid.length; i++) {
+        console.log(flippedGrid[i]);
       };
     },
   };

@@ -1,3 +1,4 @@
+/* Permanent */
 .minesweeper {
   /*position*/
   position: relative;
@@ -35,9 +36,45 @@
 .minesweeper .gameGrid .gameTile {
   width: 2em;
   height: 10%;
-  background-color:#0FF;
 }
+/* Temporary */
+.minesweeper .gameGrid .gameTile[data-activity="true"]:hover {
+  background-image: url("graphics/blankTile.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="true"] {
+  background-image: url("graphics/blankTile.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="true"][data-gameValue="bomb"] {
+  background-image: url("graphics/mine.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="true"][data-gameValue="1"] {
+  background-image: url("graphics/tile1.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="true"][data-gameValue="2"] {
+  background-image: url("graphics/tile2.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="true"][data-gameValue="3"] {
+  background-image: url("graphics/tile3.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="true"][data-gameValue="4"] {
+  background-image: url("graphics/tile4.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="true"][data-gameValue="5"] {
+  background-image: url("graphics/tile5.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="true"][data-gameValue="6"] {
+  background-image: url("graphics/tile6.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="true"][data-gameValue="7"] {
+  background-image: url("graphics/tile7.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="true"][data-gameValue="8"] {
+  background-image: url("graphics/tile8.png");
+}
+.minesweeper .gameGrid .gameTile[data-revealed="false"] {
 
+  background-image: url("graphics/hiddenTile.png")
+}
 footer {
   text-align: center;
 }
