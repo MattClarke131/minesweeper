@@ -125,6 +125,33 @@ Minesweeper.Model = function() {
       };
       revealedGridCallback();
     },
+    checkWin: function() {
+      var unclicked = 0;
+      for(var x=0; x<xSize; x++) {
+        for(var y=0; y<ySize; y++) {
+          if(!revealedGrid[x][y]) {
+            unclicked++;
+          }
+        }
+      }
+      if(unclicked == numBombs && this.checkLoss() == false) {
+        return true;
+      } else {
+        return false;
+      };
+    },
+    checkLoss: function() {
+      for(var x=0; x<xSize; x++) {
+        for(var y=0; y<ySize; y++) {
+          if(revealedGrid[x][y]) {
+            if(gameGrid[x][y] == "bomb") {
+              return true;
+            }
+          };
+        };
+      };
+      return false;
+    },
     // DEBUG
     getFlippedGrid: function(grid) {
       var flippedGrid = [];

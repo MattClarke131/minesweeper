@@ -213,11 +213,21 @@ Minesweeper.Controller = function(node) {
       controller.model.resetGameGrid(xcoord,ycoord);
       controller.model.resetRevealedGrid();
       controller.model.revealTile(xcoord, ycoord);
+      if(controller.model.checkWin()) {
+        controller.setWinPhase();
+      };
     },
     _tileFunction: function() {
-      var xcoord = $(this).attr("data-xcoord");
-      var ycoord = $(this).attr("data-ycoord");
+      if($(this).attr("data-activity") == "true") {
+        var xcoord = $(this).attr("data-xcoord");
+        var ycoord = $(this).attr("data-ycoord");
         controller.model.revealTile(xcoord, ycoord);
+        if(controller.model.checkWin()) {
+          controller.setWinPhase();
+        } else if(controller.model.checkLoss()) {
+          controller.setLosePhase();
+        };
+      };
     },
     // Debug
   };
