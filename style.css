@@ -38,6 +38,9 @@
   height: 10%;
 }
 /* Temporary */
+.minesweeper .gameGrid .gameTile[data-activity="true"]:hover {
+  background-image: url("graphics/blankTile.png");
+}
 .minesweeper .gameGrid .gameTile[data-revealed="true"] {
   background-image: url("graphics/blankTile.png");
 }
