@@ -107,7 +107,6 @@ Minesweeper.Controller = function(node) {
         for(var y=0; y<numGameRows; y++) {
           var tile = $("[data-xcoord="+x+"][data-ycoord="+y+"]");
           var visible = grid[x][y];
-          console.log(visible);
           if(visible) {
             tile.attr("data-revealed", "true")
           } else {
@@ -209,14 +208,12 @@ Minesweeper.Controller = function(node) {
     },
     _initialTileFunction: function() {
       controller.setPlayPhase();
-      console.log("_initialTileFunction() called");
       var xcoord = Number($(this).attr("data-xcoord"));
       var ycoord = Number($(this).attr("data-ycoord"));
       controller.model.resetGameGrid(xcoord,ycoord);
       controller._revealTile(xcoord, ycoord);
     },
     _tileFunction: function() {
-      console.log("_tileFunction() called");
       var xcoord = $(this).attr("data-xcoord");
       var ycoord = $(this).attr("data-ycoord");
         controller._revealTile(xcoord, ycoord);
