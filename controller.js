@@ -38,7 +38,6 @@ Minesweeper.Controller = function(node) {
     },
     // Display Functions
     resetGameGridDisplay() {
-      this._clearGameGrid();
       this._populateGameRows(numGameRows,numGameCols);
     },
     _populateGameRows: function(numRows,numCols) {
@@ -74,9 +73,6 @@ Minesweeper.Controller = function(node) {
         newValue = 999;
       }
       $(".minesDisplay").html(newValue);
-    },
-    _clearGameGrid: function() {
-      $(".gameTile").empty();
     },
     setSmileyGraphic(newFace) {
       // INPUT: string
@@ -121,7 +117,6 @@ Minesweeper.Controller = function(node) {
       this.resetTimer();
       this.setSmileyGraphic("smile");
       this.bindAllTileButtons(this._initialTileFunction);
-      this._clearGameGrid();
       this.model.resetRevealedGrid();
       this.updateRevealedTiles();
       console.log("initPhase");
