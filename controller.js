@@ -42,7 +42,7 @@ Minesweeper.Controller = function(node) {
     },
     _populateGameRows: function(numRows,numCols) {
       for(var i=0; i<numRows; i++) {
-        var newRow = this._getFormattedGameRow();
+        var newRow = this._getFormattedGameRow(i);
         for(var j=0; j<numCols; j++) {
           var newTile = this._getFormattedGameTile(j,i);
           newRow.append(newTile);
@@ -50,9 +50,10 @@ Minesweeper.Controller = function(node) {
         gameGrid.append(newRow);
       };
     },
-    _getFormattedGameRow: function() {
+    _getFormattedGameRow: function(y) {
       var newRow = gameRowTemplate.clone();
       newRow.removeClass("gameRowTemplate").addClass("gameRow");
+      newRow.attr("data-ycoord", y);
       newRow.empty();
       return newRow;
     },
@@ -99,9 +100,10 @@ Minesweeper.Controller = function(node) {
     },
     updateRevealedTiles: function() {
       var grid = controller.model.getRevealedGrid();
-      for(var x=0; x<numGameCols; x++) {
-        for(var y=0; y<numGameRows; y++) {
-          var tile = $("[data-xcoord="+x+"][data-ycoord="+y+"]");
+      for(var y=0; y<numGameRows; y++) {
+        var row = gameGrid.find(".gameRow[data-ycoord="+y+"]");
+        for(var x=0; x<numGameCols; x++) {
+          var tile = row.find("[data-xcoord="+x+"]");
           var visible = grid[x][y];
           if(visible) {
             tile.attr("data-revealed", "true")
