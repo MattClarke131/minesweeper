@@ -4,21 +4,17 @@ console.log("model.js successfully loaded");
 var Minesweeper = {}
 Minesweeper.Model = function() {
   // Private
-  var gameGrid;
+  var tileGrid;
   var revealedGrid;
   var xSize = 10;
   var ySize = 10;
   var numBombs = 10;
-  var gameGridCallback = function() {};
-  var revealedGridCallback = function () {};
+  var revealedCallback = function () {};
   // Public
   var minesweeper = {
     // Get methods
-    getGameGrid: function() {
-      return gameGrid;
-    },
-    getRevealedGrid: function() {
-      return revealedGrid;
+    getTileGrid: function() {
+      return tileGrid;
     },
     getXSize: function() {
       return xSize;
@@ -27,26 +23,34 @@ Minesweeper.Model = function() {
       return ySize;
     },
     // Set methods
-    setGameGridCallback: function(func) {
-      gameGridCallback = func;
+    setTileGridCallback: function(func) {
+      tileGridCallback = func;
     },
-    setRevealedGridCallBack: function(func) {
-      revealedGridCallback = func;
+    setRevealedCallBack: function(func) {
+      revealedCallback = func;
     },
     // Game state methods
-    resetGameGrid: function(xClick, yClick) {
+    resetTileGrid: function(xClick, yClick) {
       // calls callback function
       var newGrid = [];
-      for(var i=0; i<xSize; i++) {
+      for(var x=0; x<xSize; x++) {
         newGrid.push([]);
-        for(var j=0; j<ySize; j++) {
-          newGrid[i].push("");
+        for(var y=0; y<ySize; y++) {
+          newGrid[x].push(this._createTileObject(x,y));
         };
       };
-      gameGrid = newGrid;
+      tileGrid = newGrid;
       this._populateBombs(xClick, yClick);
       this._labelGrid();
-      gameGridCallback();
+    },
+    _createTileObject: function(xcoord, ycoord) {
+      return {
+        gameValue: null,
+        xcoord: xcoord,
+        ycoord: ycoord,
+        revealed: false,
+        flagged: false,
+      };
     },
     _populateBombs: function(xClick, yClick) {
       //The first click is always safe, args mark first click
@@ -54,23 +58,23 @@ Minesweeper.Model = function() {
       while (bombs < numBombs) {
         var xRand = Math.floor(Math.random() * xSize);
         var yRand = Math.floor(Math.random() * ySize);
-        if(gameGrid[xRand][yRand] !== "bomb" && (xRand !== xClick || yRand !== yClick)) {
+        if(tileGrid[xRand][yRand].gameValue !== "bomb" && (xRand !== xClick || yRand !== yClick)) {
           bombs++;
-          gameGrid[xRand][yRand] = "bomb"
+          tileGrid[xRand][yRand].gameValue = "bomb"
         };
       };
     },
     _labelGrid: function() {
       for(var x=0; x<xSize; x++) {
         for(var y=0; y<ySize; y++) {
-          if(gameGrid[x][y] !== "bomb") {
-            gameGrid[x][y] = this._getNumNeighboringBombs(x,y);
+          if(tileGrid[x][y].gameValue !== "bomb") {
+            tileGrid[x][y].gameValue = this._getNumNeighboringBombs(x,y);
           };
         };
       };
     },
     _getNumNeighboringBombs: function(xcoord, ycoord) {
-      // INPUT: x,y coordinates
+      // INPUT: x, y coordinates
       // OUTPUT: number
       var neighboringBombs = 0;
       for(var x=-1; x<2; x++) {
@@ -79,7 +83,7 @@ Minesweeper.Model = function() {
              ycoord+y < ySize &&
              xcoord+x >= 0 &&
              ycoord+y >= 0) {
-            if(!(x===0 && y===0) && gameGrid[xcoord+x][ycoord+y] == "bomb") {
+            if(!(x===0 && y===0) && tileGrid[xcoord+x][ycoord+y].gameValue == "bomb") {
               neighboringBombs++;
             };
           };
@@ -87,35 +91,24 @@ Minesweeper.Model = function() {
       };
       return neighboringBombs;
     },
-    resetRevealedGrid: function() {
-      var newGrid = [];
-      for(var x=0; x<xSize; x++) {
-        newGrid.push([]);
-        for(var y=0; y<ySize; y++) {
-          newGrid[x].push(false);
-        };
-      };
-      revealedGrid = newGrid;
-      revealedGridCallback();
-    },
     revealTile: function(xcoord, ycoord) {
       this._revealTileHelper(xcoord, ycoord);
-      revealedGridCallback();
+      revealedCallback();
     },
     _revealTileHelper: function(xcoord, ycoord) {
-      if(gameGrid[xcoord] == undefined) {
+      if(tileGrid[xcoord] == undefined) {
         return;
-      } else if(gameGrid[xcoord][ycoord] == undefined) {
+      } else if(tileGrid[xcoord][ycoord] == undefined) {
         return;
       };
-      var gameValue = gameGrid[xcoord][ycoord];
+      var gameValue = tileGrid[xcoord][ycoord].gameValue;
       if(gameValue == "bomb") {
         this._revealAllBombs();
       };
-      if(!revealedGrid[xcoord][ycoord]) {
-        revealedGrid[xcoord][ycoord] = true;
+      if(!tileGrid[xcoord][ycoord].revealed) {
+        tileGrid[xcoord][ycoord].revealed = true;
         if (gameValue == "0") {
-          var surroundingZeroes = [
+          var surroundingTiles = [
             [xcoord-1, ycoord-1],
             [xcoord-1, ycoord],
             [xcoord-1, ycoord+1],
@@ -125,8 +118,8 @@ Minesweeper.Model = function() {
             [xcoord+1, ycoord],
             [xcoord+1, ycoord+1],
           ];
-          for(var i=0; i<surroundingZeroes.length; i++) {
-            this._revealTileHelper(surroundingZeroes[i][0],surroundingZeroes[i][1])
+          for(var i=0; i<surroundingTiles.length; i++) {
+            this._revealTileHelper(surroundingTiles[i][0],surroundingTiles[i][1])
           };
         };
       };
@@ -134,8 +127,8 @@ Minesweeper.Model = function() {
     _revealAllBombs: function() {
       for(var x=0; x<xSize; x++) {
         for(var y=0; y<ySize; y++) {
-          if(gameGrid[x][y] == "bomb") {
-            revealedGrid[x][y] = true;
+          if(tileGrid[x][y].gameValue == "bomb") {
+            tileGrid[x][y].revealed = true;
           };
         };
       };
@@ -144,7 +137,7 @@ Minesweeper.Model = function() {
       var unclicked = 0;
       for(var x=0; x<xSize; x++) {
         for(var y=0; y<ySize; y++) {
-          if(!revealedGrid[x][y]) {
+          if(!tileGrid[x][y].revealed) {
             unclicked++;
           }
         }
@@ -158,8 +151,8 @@ Minesweeper.Model = function() {
     checkLoss: function() {
       for(var x=0; x<xSize; x++) {
         for(var y=0; y<ySize; y++) {
-          if(revealedGrid[x][y]) {
-            if(gameGrid[x][y] == "bomb") {
+          if(tileGrid[x][y].revealed) {
+            if(tileGrid[x][y].gameValue == "bomb") {
               return true;
             }
           };
@@ -168,28 +161,27 @@ Minesweeper.Model = function() {
       return false;
     },
     // DEBUG
-    getFlippedGrid: function(grid) {
+    getFlippedTileGrid: function() {
       var flippedGrid = [];
       for(var y=0; y<ySize; y++) {
         flippedGrid.push([]);
       };
       for(var y=0; y<ySize; y++) {
         for(var x=0; x<xSize; x++) {
-          flippedGrid[y].push(grid[x][y]);
+          flippedGrid[y].push(tileGrid[x][y]);
         };
       };
       return flippedGrid;
     },
-    printGameGrid: function() {
-      var flippedGrid = this.getFlippedGrid(gameGrid);
+    printGridProperty: function(property) {
+      var flippedGrid = this.getFlippedTileGrid();
+
       for(var i=0; i<flippedGrid.length; i++) {
-        console.log(flippedGrid[i]);
-      };
-    },
-    printRevealedGrid: function() {
-      var flippedGrid = this.getFlippedGrid(revealedGrid);
-      for(var i=0; i<flippedGrid.length; i++) {
-        console.log(flippedGrid[i]);
+        var row = [];
+        for(var j=0; j<flippedGrid[i].length; j++) {
+          row.push(flippedGrid[i][j][property]);
+        };
+        console.log(row);
       };
     },
   };

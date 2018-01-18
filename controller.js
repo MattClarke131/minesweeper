@@ -18,9 +18,9 @@ Minesweeper.Controller = function(node) {
     initialize: function() {
       numGameRows = this.model.getYSize();
       numGameCols = this.model.getXSize();
+      this.model.resetTileGrid();
       this.resetGameGridDisplay();
-      this.model.setGameGridCallback(this._setGameValues);
-      this.model.setRevealedGridCallBack(this.updateRevealedTiles);
+      this.model.setRevealedCallBack(this.updateRevealedTiles);
       this.bindSmiley();
       console.log("initialization successful");
       this.setInitPhase();
@@ -32,7 +32,7 @@ Minesweeper.Controller = function(node) {
         var currentTile = $(gameTiles[i]);
         var xcoord = currentTile.attr("data-xcoord");
         var ycoord = currentTile.attr("data-ycoord");
-        var value = controller.model.getGameGrid()[xcoord][ycoord];
+        var value = controller.model.getTileGrid()[xcoord][ycoord].gameValue;
         currentTile.attr("data-gameValue", value);
       };
     },
@@ -76,12 +76,12 @@ Minesweeper.Controller = function(node) {
       $(".minesDisplay").html(newValue);
     },
     updateRevealedTiles: function() {
-      var grid = controller.model.getRevealedGrid();
+      var grid = controller.model.getTileGrid();
       for(var y=0; y<numGameRows; y++) {
         var row = gameGrid.find(".gameRow[data-ycoord="+y+"]");
         for(var x=0; x<numGameCols; x++) {
           var tile = row.find("[data-xcoord="+x+"]");
-          var visible = grid[x][y];
+          var visible = grid[x][y].revealed;
           if(visible) {
             tile.attr("data-revealed", "true")
           } else {
@@ -95,7 +95,7 @@ Minesweeper.Controller = function(node) {
       $(".minesweeper").attr("data-phase","init");
       this.resetTimer();
       this.bindAllTileButtons(this._initialTileFunction);
-      this.model.resetRevealedGrid();
+      this.model.resetTileGrid();
       this.updateRevealedTiles();
       console.log("initPhase");
     },
@@ -171,8 +171,8 @@ Minesweeper.Controller = function(node) {
       controller.setPlayPhase();
       var xcoord = Number($(tile).attr("data-xcoord"));
       var ycoord = Number($(tile).attr("data-ycoord"));
-      controller.model.resetGameGrid(xcoord,ycoord);
-      controller.model.resetRevealedGrid();
+      controller.model.resetTileGrid(xcoord,ycoord);
+      controller._setGameValues();
       controller.model.revealTile(xcoord, ycoord);
       if(controller.model.checkWin()) {
         controller.setWinPhase();
