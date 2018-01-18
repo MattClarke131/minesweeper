@@ -90,11 +90,24 @@ Minesweeper.Controller = function(node) {
         };
       };
     },
+    _toggleFlag: function(tile) {
+      var xcoord = tile.attr("data-xcoord");
+      var ycoord = tile.attr("data-ycoord");
+      var tileModel = controller.model.getTileGrid()[xcoord][ycoord];
+      var isFlagged = tileModel.flagged;
+      if(!isFlagged) {
+        tile.attr("data-flagged", "true");
+        tileModel.flagged = true;
+      } else {
+        tile.attr("data-flagged", "false");
+        tileModel.flagged = false;
+      };
+    },
     // Game state functions
     setInitPhase: function() {
       $(".minesweeper").attr("data-phase","init");
       this.resetTimer();
-      this.bindAllTileButtons(this._initialTileFunction);
+      this.bindAllTileButtons(this._initialTileFunction, this._tileShiftClickFunction);
       this.model.resetTileGrid();
       this.updateRevealedTiles();
       console.log("initPhase");
@@ -102,19 +115,19 @@ Minesweeper.Controller = function(node) {
     setPlayPhase: function() {
       $(".minesweeper").attr("data-phase","play");
       this.startTimer();
-      this.bindAllTileButtons(this._tileFunction);
+      this.bindAllTileButtons(this._tileFunction, this._tileShiftClickFunction);
       console.log("playPhase");
     },
     setLosePhase: function() {
       $(".minesweeper").attr("data-phase","lose");
       this.stopTimer();
-      this.bindAllTileButtons(null);
+      this.bindAllTileButtons(null, null);
       console.log("losePhase");
     },
     setWinPhase: function() {
       $(".minesweeper").attr("data-phase","win");
       this.stopTimer();
-      this.bindAllTileButtons(null);
+      this.bindAllTileButtons(null, null);
       console.log("winPhase");
     },
     // Time functions
@@ -157,12 +170,14 @@ Minesweeper.Controller = function(node) {
           controller.setInitPhase();
         });
     },
-    bindAllTileButtons: function(func) {
+    bindAllTileButtons: function(func, shiftFunc) {
       var controller = this;
       gameGrid.unbind();
       gameGrid.on("click", ".gameTile", function (e) {
         var tile = e.target;
-        if(func) {
+        if (e.shiftKey && shiftFunc) {
+          shiftFunc(tile);
+        } else if(func) {
           func(tile);
         };
       });
@@ -179,14 +194,17 @@ Minesweeper.Controller = function(node) {
       };
     },
     _tileFunction: function(tile) {
-        var xcoord = Number($(tile).attr("data-xcoord"));
-        var ycoord = Number($(tile).attr("data-ycoord"));
-        controller.model.revealTile(xcoord, ycoord);
-        if(controller.model.checkWin()) {
-          controller.setWinPhase();
-        } else if(controller.model.checkLoss()) {
-          controller.setLosePhase();
-        };
+      var xcoord = Number($(tile).attr("data-xcoord"));
+      var ycoord = Number($(tile).attr("data-ycoord"));
+      controller.model.revealTile(xcoord, ycoord);
+      if(controller.model.checkWin()) {
+        controller.setWinPhase();
+      } else if(controller.model.checkLoss()) {
+        controller.setLosePhase();
+      };
+    },
+    _tileShiftClickFunction: function(tile) {
+      controller._toggleFlag($(tile));
     },
     // Debug
   };

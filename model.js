@@ -101,6 +101,9 @@ Minesweeper.Model = function() {
       } else if(tileGrid[xcoord][ycoord] == undefined) {
         return;
       };
+      if(tileGrid[xcoord][ycoord].flagged == true) {
+        return;
+      };
       var gameValue = tileGrid[xcoord][ycoord].gameValue;
       if(gameValue == "bomb") {
         this._revealAllBombs();

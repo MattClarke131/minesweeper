@@ -40,8 +40,8 @@
   background-size: contain;
 }
 /* Temporary */
-.minesweeper[data-phase="init"] .gameGrid .gameTile[data-revealed="false"]:hover,
-.minesweeper[data-phase="play"] .gameGrid .gameTile[data-revealed="false"]:hover {
+.minesweeper[data-phase="init"] .gameGrid .gameTile[data-revealed="false"][data-flagged="false"]:hover,
+.minesweeper[data-phase="play"] .gameGrid .gameTile[data-revealed="false"][data-flagged="false"]:hover {
   background-image: url("graphics/blankTile.png");
 }
 .minesweeper .gameGrid .gameTile[data-revealed="true"] {
@@ -76,6 +76,9 @@
 }
 .minesweeper .gameGrid .gameTile[data-revealed="false"] {
   background-image: url("graphics/hiddenTile.png")
+}
+.minesweeper .gameGrid .gameTile[data-flagged="true"] {
+    background-image: url("graphics/flaggedTile.png");
 }
 
 /* smiley permanent */
