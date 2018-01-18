@@ -87,6 +87,12 @@ Minesweeper.Controller = function(node) {
           } else {
             tile.attr("data-revealed", "false");
           };
+          var flagged = grid[x][y].flagged;
+          if(flagged) {
+            tile.attr("data-flagged", "true")
+          } else {
+            tile.attr("data-flagged", "false");
+          };
         };
       };
     },
