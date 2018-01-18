@@ -179,8 +179,8 @@ Minesweeper.Controller = function(node) {
       };
     },
     _tileFunction: function(tile) {
-        var xcoord = $(tile).attr("data-xcoord");
-        var ycoord = $(tile).attr("data-ycoord");
+        var xcoord = Number($(tile).attr("data-xcoord"));
+        var ycoord = Number($(tile).attr("data-ycoord"));
         controller.model.revealTile(xcoord, ycoord);
         if(controller.model.checkWin()) {
           controller.setWinPhase();
