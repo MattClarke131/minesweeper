@@ -36,6 +36,8 @@
 .minesweeper .gameGrid .gameTile {
   width: 2em;
   height: 10%;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 /* Temporary */
 .minesweeper .gameGrid .gameTile[data-activity="true"]:hover {
