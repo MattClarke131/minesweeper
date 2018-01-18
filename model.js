@@ -99,6 +99,10 @@ Minesweeper.Model = function() {
       revealedGridCallback();
     },
     revealTile: function(xcoord, ycoord) {
+      this._revealTileHelper(xcoord, ycoord);
+      revealedGridCallback();
+    },
+    _revealTileHelper: function(xcoord, ycoord) {
       if(gameGrid[xcoord] == undefined) {
         return;
       } else if(gameGrid[xcoord][ycoord] == undefined) {
@@ -122,11 +126,10 @@ Minesweeper.Model = function() {
             [xcoord+1, ycoord+1],
           ];
           for(var i=0; i<surroundingZeroes.length; i++) {
-            this.revealTile(surroundingZeroes[i][0],surroundingZeroes[i][1])
+            this._revealTileHelper(surroundingZeroes[i][0],surroundingZeroes[i][1])
           };
         };
       };
-      revealedGridCallback();
     },
     _revealAllBombs: function() {
       for(var x=0; x<xSize; x++) {
