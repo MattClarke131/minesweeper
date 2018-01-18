@@ -75,29 +75,6 @@ Minesweeper.Controller = function(node) {
       }
       $(".minesDisplay").html(newValue);
     },
-    setSmileyGraphic(newFace) {
-      // INPUT: string
-      var smileyGraphic = $($(".minesweeper .smileyGraphic")[0]);
-      var newSrc;
-      switch (newFace) {
-        case "smile":
-          newSrc = smileyGraphic.attr("data-smile-src");
-          break;
-        case "nervous":
-          newSrc = smileyGraphic.attr("data-nervous-src");
-          break;
-        case "sunglasses":
-          newSrc = smileyGraphic.attr("data-sunglasses-src");
-          break;
-        case "dead":
-          newSrc = smileyGraphic.attr("data-dead-src");
-          break;
-        default:
-          console.log("wrong argument for controller.setSmileyGraphic()");
-          break;
-      };
-      smileyGraphic.attr("src", newSrc);
-    },
     updateRevealedTiles: function() {
       var grid = controller.model.getRevealedGrid();
       for(var y=0; y<numGameRows; y++) {
@@ -117,7 +94,6 @@ Minesweeper.Controller = function(node) {
     setInitPhase: function() {
       $(".minesweeper").attr("data-phase","init");
       this.resetTimer();
-      this.setSmileyGraphic("smile");
       this.bindAllTileButtons(this._initialTileFunction);
       this.model.resetRevealedGrid();
       this.updateRevealedTiles();
@@ -126,21 +102,18 @@ Minesweeper.Controller = function(node) {
     setPlayPhase: function() {
       $(".minesweeper").attr("data-phase","play");
       this.startTimer();
-      this.setSmileyGraphic("smile");
       this.bindAllTileButtons(this._tileFunction);
       console.log("playPhase");
     },
     setLosePhase: function() {
       $(".minesweeper").attr("data-phase","lose");
       this.stopTimer();
-      this.setSmileyGraphic("dead");
       this.bindAllTileButtons(null);
       console.log("losePhase");
     },
     setWinPhase: function() {
       $(".minesweeper").attr("data-phase","win");
       this.stopTimer();
-      this.setSmileyGraphic("sunglasses");
       this.bindAllTileButtons(null);
       console.log("winPhase");
     },
@@ -180,7 +153,7 @@ Minesweeper.Controller = function(node) {
     // Binding functions
     bindSmiley: function() {
       var controller = this;
-      $(".smileyGraphic").click(function() {
+      $(".smileyDisplay").click(function() {
           controller.setInitPhase();
         });
     },

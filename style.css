@@ -75,9 +75,28 @@
   background-image: url("graphics/tile8.png");
 }
 .minesweeper .gameGrid .gameTile[data-revealed="false"] {
-
   background-image: url("graphics/hiddenTile.png")
 }
+
+/* smiley permanent */
+.minesweeper .smileyDisplay {
+  height: 20px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+/* smiley temporary */
+.minesweeper[data-phase="init"] .smileyDisplay,
+.minesweeper[data-phase="play"] .smileyDisplay {
+  background-image: url("graphics/smile.png")
+}
+.minesweeper[data-phase="lose"] .smileyDisplay {
+  background-image: url("graphics/dead.png")
+}
+.minesweeper[data-phase="win"] .smileyDisplay {
+  background-image: url("graphics/sunglasses.png")
+}
+
 footer {
   text-align: center;
 }
