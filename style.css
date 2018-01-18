@@ -40,7 +40,8 @@
   background-size: contain;
 }
 /* Temporary */
-.minesweeper .gameGrid .gameTile[data-activity="true"]:hover {
+.minesweeper[data-phase="init"] .gameGrid .gameTile[data-revealed="false"]:hover,
+.minesweeper[data-phase="play"] .gameGrid .gameTile[data-revealed="false"]:hover {
   background-image: url("graphics/blankTile.png");
 }
 .minesweeper .gameGrid .gameTile[data-revealed="true"] {

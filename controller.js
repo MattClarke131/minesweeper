@@ -115,7 +115,7 @@ Minesweeper.Controller = function(node) {
     },
     // Game state functions
     setInitPhase: function() {
-      this._setAllTilesActivity(true);
+      $(".minesweeper").attr("data-phase","init");
       this.resetTimer();
       this.setSmileyGraphic("smile");
       this.bindAllTileButtons(this._initialTileFunction);
@@ -124,33 +124,25 @@ Minesweeper.Controller = function(node) {
       console.log("initPhase");
     },
     setPlayPhase: function() {
-      this._setAllTilesActivity(true);
+      $(".minesweeper").attr("data-phase","play");
       this.startTimer();
       this.setSmileyGraphic("smile");
       this.bindAllTileButtons(this._tileFunction);
       console.log("playPhase");
     },
     setLosePhase: function() {
-      this._setAllTilesActivity(false);
+      $(".minesweeper").attr("data-phase","lose");
       this.stopTimer();
       this.setSmileyGraphic("dead");
+      this.bindAllTileButtons(null);
       console.log("losePhase");
     },
     setWinPhase: function() {
-      this._setAllTilesActivity(false);
+      $(".minesweeper").attr("data-phase","win");
       this.stopTimer();
       this.setSmileyGraphic("sunglasses");
+      this.bindAllTileButtons(null);
       console.log("winPhase");
-    },
-    _setAllTilesActivity: function(value) {
-      var gameTiles = $(".gameTile");
-      for(var i=0; i<gameTiles.length; i++) {
-        var currentTile = $(gameTiles[i]);
-        currentTile.attr("data-activity", value)
-      };
-    },
-    _setIndividualTileActivity: function(xcoord,ycoord,value) {
-      $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").attr("data-activity", value);
     },
     // Time functions
     startTimer: function() {
@@ -197,7 +189,9 @@ Minesweeper.Controller = function(node) {
       gameGrid.unbind();
       gameGrid.on("click", ".gameTile", function (e) {
         var tile = e.target;
-        func(tile);
+        if(func) {
+          func(tile);
+        };
       });
     },
     _initialTileFunction: function(tile) {
@@ -212,7 +206,6 @@ Minesweeper.Controller = function(node) {
       };
     },
     _tileFunction: function(tile) {
-      if($(tile).attr("data-activity") == "true") {
         var xcoord = $(tile).attr("data-xcoord");
         var ycoord = $(tile).attr("data-ycoord");
         controller.model.revealTile(xcoord, ycoord);
@@ -221,7 +214,6 @@ Minesweeper.Controller = function(node) {
         } else if(controller.model.checkLoss()) {
           controller.setLosePhase();
         };
-      };
     },
     // Debug
   };
