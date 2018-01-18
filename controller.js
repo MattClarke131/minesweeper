@@ -192,21 +192,16 @@ Minesweeper.Controller = function(node) {
     },
     bindAllTileButtons: function(func) {
       var controller = this;
-      for(var x=0; x<numGameCols; x++) {
-        for(var y=0; y<numGameRows; y++) {
-          this._bindIndividualTileButton(x,y,func);
-        };
-      };
+      gameGrid.unbind();
+      gameGrid.on("click", ".gameTile", function (e) {
+        var tile = e.target;
+        func(tile);
+      });
     },
-    _bindIndividualTileButton: function(xcoord,ycoord, func) {
-      var controller = this;
-      $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").unbind();
-      $("[data-xcoord="+xcoord+"][data-ycoord="+ycoord+"]").click(func);
-    },
-    _initialTileFunction: function() {
+    _initialTileFunction: function(tile) {
       controller.setPlayPhase();
-      var xcoord = Number($(this).attr("data-xcoord"));
-      var ycoord = Number($(this).attr("data-ycoord"));
+      var xcoord = Number($(tile).attr("data-xcoord"));
+      var ycoord = Number($(tile).attr("data-ycoord"));
       controller.model.resetGameGrid(xcoord,ycoord);
       controller.model.resetRevealedGrid();
       controller.model.revealTile(xcoord, ycoord);
@@ -214,10 +209,10 @@ Minesweeper.Controller = function(node) {
         controller.setWinPhase();
       };
     },
-    _tileFunction: function() {
-      if($(this).attr("data-activity") == "true") {
-        var xcoord = $(this).attr("data-xcoord");
-        var ycoord = $(this).attr("data-ycoord");
+    _tileFunction: function(tile) {
+      if($(tile).attr("data-activity") == "true") {
+        var xcoord = $(tile).attr("data-xcoord");
+        var ycoord = $(tile).attr("data-ycoord");
         controller.model.revealTile(xcoord, ycoord);
         if(controller.model.checkWin()) {
           controller.setWinPhase();
