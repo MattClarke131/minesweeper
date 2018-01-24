@@ -108,6 +108,23 @@ Minesweeper.Controller = function(node) {
         tile.attr("data-flagged", "false");
         tileModel.flagged = false;
       };
+      this.updateMinesDisplay();
+    },
+    updateMinesDisplay: function() {
+      var numMines = $("[data-flagged=true]").length;
+      numMines = String(numMines);
+      numMines = this._formatMinesDisplay(numMines);
+      $(".minesDisplay").html(numMines);
+    },
+    _formatMinesDisplay: function(string) {
+      if (string.length === 1) {
+        string = "00" + string;
+      } else if (string.length === 2) {
+        string = "0" + string;
+      } else if (string.length > 3) {
+        string = "999";
+      };
+      return string;
     },
     // Game state functions
     setInitPhase: function() {
