@@ -18,6 +18,9 @@
   width: 50%;
   /*color*/
   background-color:#CCC;
+  /*contents position*/
+  display:flex;
+  justify-content: space-between;
 }
 .minesweeper .gameBoard {
   /*position*/
