@@ -32,7 +32,12 @@
   /*text*/
   font-size: 3.5em;
   color: Red;
+  font-family: digital;
   text-align: center;
+}
+@font-face{
+  font-family:'digital';
+  src: url('Digital Dismay.otf');
 }
 .minesweeper .gameBoard {
   /*position*/
