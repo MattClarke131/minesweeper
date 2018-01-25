@@ -22,6 +22,18 @@
   display:flex;
   justify-content: space-between;
 }
+.minesweeper .gameMenu .minesDisplay {
+  /*size*/
+  width: 1.5em;
+
+  /*color*/
+  background-color: black;
+
+  /*text*/
+  font-size: 3.5em;
+  color: Red;
+  text-align: center;
+}
 .minesweeper .gameBoard {
   /*position*/
   position: relative;
