@@ -21,6 +21,20 @@ Minesweeper.Model = function() {
     getYSize: function() {
       return ySize;
     },
+    getNumBombs: function() {
+      return numBombs;
+    },
+    getNumFlags: function() {
+      var numFlags = 0;
+      for(var x=0; x<xSize; x++) {
+        for(var y=0; y<ySize; y++) {
+          if(tileGrid[x][y].flagged) {
+            numFlags++;
+          }
+        }
+      }
+      return numFlags;
+    },
     // Set methods
     setTileGridCallback: function(func) {
       tileGridCallback = func;

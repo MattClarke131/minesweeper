@@ -100,12 +100,16 @@ Minesweeper.Controller = function(node) {
       this.updateMinesDisplay();
     },
     updateMinesDisplay: function() {
-      var numMines = $("[data-flagged=true]").length;
+      var numMines = this.model.getNumBombs();
+      numMines = numMines - this.model.getNumFlags();
       numMines = String(numMines);
       numMines = this._formatMinesDisplay(numMines);
       $(".minesDisplay").html(numMines);
     },
     _formatMinesDisplay: function(string) {
+      if(Number(string) < 0) {
+        return "000"
+      };
       if (string.length === 1) {
         string = "00" + string;
       } else if (string.length === 2) {
@@ -122,6 +126,7 @@ Minesweeper.Controller = function(node) {
       this.bindAllTileButtons(this._initialTileFunction, this._tileShiftClickFunction);
       this.model.resetTileGrid();
       this.updateRevealedTiles();
+      this.updateMinesDisplay();
       console.log("initPhase");
     },
     setPlayPhase: function() {
