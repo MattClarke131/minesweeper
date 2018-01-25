@@ -52,6 +52,14 @@
   font-family: digital;
   text-align: center;
 }
+
+.mineSweeper .gameMenu .smileyDisplay {
+  /*size*/
+  width: 1em;
+  height: 1em;
+  /*why do I need this?*/
+  font-size: 3.5em;
+}
 .minesweeper .gameBoard {
   /*position*/
   position: relative;
