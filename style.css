@@ -39,6 +39,19 @@
   font-family:'digital';
   src: url('Digital Dismay.otf');
 }
+.minesweeper .gameMenu .timerDisplay {
+  /*size*/
+  width: 1.5em;
+
+  /*color*/
+  background-color: black;
+
+  /*text*/
+  font-size: 3.5em;
+  color: Red;
+  font-family: digital;
+  text-align: center;
+}
 .minesweeper .gameBoard {
   /*position*/
   position: relative;
