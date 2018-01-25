@@ -64,17 +64,6 @@ Minesweeper.Controller = function(node) {
       newTile.attr("data-ycoord",ycoord);
       return newTile;
     },
-    _updateMinesDisplay: function(newValue) {
-      // INPUT: string
-      if (newValue.length == 1) {
-        newValue = "00" + newValue;
-      } else if (newValue.length == 2) {
-        newValue = "0" + newValue;
-      } else if (newValue.length > 3) {
-        newValue = 999;
-      }
-      $(".minesDisplay").html(newValue);
-    },
     updateRevealedTiles: function() {
       var grid = controller.model.getTileGrid();
       for(var y=0; y<numGameRows; y++) {

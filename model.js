@@ -5,7 +5,6 @@ var Minesweeper = {}
 Minesweeper.Model = function() {
   // Private
   var tileGrid;
-  var revealedGrid;
   var xSize = 10;
   var ySize = 10;
   var numBombs = 10;
